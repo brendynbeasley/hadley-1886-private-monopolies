@@ -1,0 +1,45 @@
+<svg viewBox="0 0 360 190" role="img" aria-label="Average operating return on assets by firm, grouped by mode" xmlns="http://www.w3.org/2000/svg"><style>
+text{font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif}
+.grid{stroke:#dfe3e9;stroke-width:1}.axis{stroke:#b9c0ca;stroke-width:1}
+.tick{fill:#7d8591;font-size:11px}.lab{fill:#4a515c;font-size:12px}.val{fill:#14171c;font-size:12px;font-weight:600}
+.dot{stroke:#ffffff;stroke-width:2}.mean{stroke:#14171c;stroke-width:2}
+.ln{stroke-width:2;stroke-linejoin:round;stroke-linecap:round}.ref{stroke-dasharray:4 4}
+.ann{stroke:#b9c0ca;stroke-width:1;stroke-dasharray:3 3}.band{fill:#dfe3e9;opacity:.55}
+</style><rect width="100%" height="100%" fill="#ffffff"/>
+<line x1="54.0" y1="14" x2="54.0" y2="164" class="grid"/><text x="54.0" y="180" class="tick" text-anchor="middle">0%</text>
+<line x1="106.4" y1="14" x2="106.4" y2="164" class="grid"/><text x="106.4" y="180" class="tick" text-anchor="middle">5%</text>
+<line x1="158.8" y1="14" x2="158.8" y2="164" class="grid"/><text x="158.8" y="180" class="tick" text-anchor="middle">10%</text>
+<line x1="211.2" y1="14" x2="211.2" y2="164" class="grid"/><text x="211.2" y="180" class="tick" text-anchor="middle">15%</text>
+<line x1="263.6" y1="14" x2="263.6" y2="164" class="grid"/><text x="263.6" y="180" class="tick" text-anchor="middle">20%</text>
+<line x1="316.0" y1="14" x2="316.0" y2="164" class="grid"/><text x="316.0" y="180" class="tick" text-anchor="middle">25%</text>
+<line x1="54" y1="164" x2="316" y2="164" class="axis"/>
+<text x="44" y="40" class="lab" text-anchor="end">Rail</text>
+<line x1="165.3" y1="23" x2="165.3" y2="49" class="mean"/>
+<circle cx="145.1" cy="41" r="5" fill="#2a78d6" class="dot"><title>BNSF: 8.7%</title></circle>
+<circle cx="153.7" cy="31" r="5" fill="#2a78d6" class="dot"><title>Kansas City Southern: 9.5%</title></circle>
+<circle cx="155.7" cy="41" r="5" fill="#2a78d6" class="dot"><title>Norfolk Southern: 9.7%</title></circle>
+<circle cx="174.5" cy="31" r="5" fill="#2a78d6" class="dot"><title>CSX: 11.5%</title></circle>
+<circle cx="197.5" cy="41" r="5" fill="#2a78d6" class="dot"><title>Union Pacific: 13.7%</title></circle>
+<text x="322" y="40" class="val">10.6%</text>
+<text x="44" y="90" class="lab" text-anchor="end">Truck</text>
+<line x1="165.3" y1="73" x2="165.3" y2="99" class="mean"/>
+<circle cx="91.7" cy="91" r="5" fill="#eb6834" class="dot"><title>ArcBest: 3.6%</title></circle>
+<circle cx="108.7" cy="81" r="5" fill="#eb6834" class="dot"><title>Knight-Swift: 5.2%</title></circle>
+<circle cx="140.9" cy="91" r="5" fill="#eb6834" class="dot"><title>Schneider: 8.3%</title></circle>
+<circle cx="148.6" cy="81" r="5" fill="#eb6834" class="dot"><title>Marten: 9.0%</title></circle>
+<circle cx="150.9" cy="91" r="5" fill="#eb6834" class="dot"><title>Werner: 9.2%</title></circle>
+<circle cx="172.3" cy="81" r="5" fill="#eb6834" class="dot"><title>Heartland Express: 11.3%</title></circle>
+<circle cx="181.5" cy="91" r="5" fill="#eb6834" class="dot"><title>Saia: 12.2%</title></circle>
+<circle cx="218.6" cy="81" r="5" fill="#eb6834" class="dot"><title>J.B. Hunt: 15.7%</title></circle>
+<circle cx="274.5" cy="91" r="5" fill="#eb6834" class="dot"><title>Old Dominion: 21.0%</title></circle>
+<text x="322" y="90" class="val">10.6%</text>
+<text x="44" y="140" class="lab" text-anchor="end">Air</text>
+<line x1="104.6" y1="123" x2="104.6" y2="149" class="mean"/>
+<circle cx="80.1" cy="141" r="5" fill="#1baf7a" class="dot"><title>American: 2.5%</title></circle>
+<circle cx="87.7" cy="131" r="5" fill="#1baf7a" class="dot"><title>JetBlue: 3.2%</title></circle>
+<circle cx="99.3" cy="141" r="5" fill="#1baf7a" class="dot"><title>United: 4.3%</title></circle>
+<circle cx="113.0" cy="131" r="5" fill="#1baf7a" class="dot"><title>Delta: 5.6%</title></circle>
+<circle cx="118.5" cy="141" r="5" fill="#1baf7a" class="dot"><title>Southwest: 6.2%</title></circle>
+<circle cx="128.9" cy="131" r="5" fill="#1baf7a" class="dot"><title>Alaska Air: 7.1%</title></circle>
+<text x="322" y="140" class="val">4.8%</text>
+</svg>

@@ -1,0 +1,6 @@
+# Raw SEC downloads are large; re-create them with `make fetch`
+data/raw/sec/
+__pycache__/
+*.pyc
+.venv/
+.DS_Store

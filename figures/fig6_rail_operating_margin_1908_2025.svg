@@ -1,0 +1,97 @@
+<svg viewBox="0 0 720 320" role="img" aria-label="Railroad operating margin, 1908 to 1961 and 2007 to 2025" xmlns="http://www.w3.org/2000/svg"><style>
+text{font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif}
+.grid{stroke:#dfe3e9;stroke-width:1}.axis{stroke:#b9c0ca;stroke-width:1}
+.tick{fill:#7d8591;font-size:11px}.lab{fill:#4a515c;font-size:12px}.val{fill:#14171c;font-size:12px;font-weight:600}
+.dot{stroke:#ffffff;stroke-width:2}.mean{stroke:#14171c;stroke-width:2}
+.ln{stroke-width:2;stroke-linejoin:round;stroke-linecap:round}.ref{stroke-dasharray:4 4}
+.ann{stroke:#b9c0ca;stroke-width:1;stroke-dasharray:3 3}.band{fill:#dfe3e9;opacity:.55}
+</style><rect width="100%" height="100%" fill="#ffffff"/><line x1="40" y1="290.0" x2="696" y2="290.0" class="grid"/><text x="34" y="294.0" class="tick" text-anchor="end">0</text>
+<line x1="40" y1="229.1" x2="696" y2="229.1" class="grid"/><text x="34" y="233.1" class="tick" text-anchor="end">10</text>
+<line x1="40" y1="168.2" x2="696" y2="168.2" class="grid"/><text x="34" y="172.2" class="tick" text-anchor="end">20</text>
+<line x1="40" y1="107.3" x2="696" y2="107.3" class="grid"/><text x="34" y="111.3" class="tick" text-anchor="end">30</text>
+<line x1="40" y1="46.4" x2="696" y2="46.4" class="grid"/><text x="34" y="50.4" class="tick" text-anchor="end">40</text>
+<text x="67.1" y="308" class="tick" text-anchor="middle">1910</text>
+<text x="175.5" y="308" class="tick" text-anchor="middle">1930</text>
+<text x="284.0" y="308" class="tick" text-anchor="middle">1950</text>
+<text x="392.4" y="308" class="tick" text-anchor="middle">1970</text>
+<text x="500.8" y="308" class="tick" text-anchor="middle">1990</text>
+<text x="609.3" y="308" class="tick" text-anchor="middle">2010</text>
+<line x1="40" y1="290" x2="696" y2="290" class="axis"/>
+<rect x="110.5" y="16.0" width="10.8" height="274.0" class="band"/><text x="115.9" y="28.0" class="tick" text-anchor="middle">Federal control</text><rect x="235.2" y="16.0" width="21.7" height="274.0" class="band"/><text x="246.0" y="28.0" class="tick" text-anchor="middle">WWII</text><text x="473.7" y="143.9" class="tick" text-anchor="middle">no comparable series</text><text x="473.7" y="157.9" class="tick" text-anchor="middle">on FRED, 1962–2006</text><text x="48.1" y="55.6" class="lab">1908–16: 31.5%</text><text x="300.2" y="204.8" class="lab" text-anchor="middle">1946–61: 21.9%</text><text x="630.9" y="34.3" class="lab" text-anchor="middle">2009–25: 33%</text>
+<polyline points="56.3,92.1 61.7,78.6 67.1,98.6 72.5,101.7 78.0,103.6 83.4,118.6 88.8,121.4 94.2,89.0 99.6,80.2 105.1,110.7 110.5,177.7 115.9,200.2 121.3,251.0 126.7,184.3 132.2,164.0 137.6,154.6 143.0,144.8 148.4,132.2 153.9,126.4 159.3,135.0 164.7,122.0 170.1,117.7 175.5,134.2 181.0,149.6 186.4,149.2 191.8,123.5 197.2,135.0 202.6,139.0 208.1,121.5 213.5,137.0 218.9,146.0 224.3,125.9 229.8,118.9 235.2,98.4 240.6,56.4 246.0,61.5 251.4,86.5 256.9,163.7 262.3,188.5 267.7,157.6 273.1,151.5 278.5,169.9 284.0,134.9 289.4,152.4 294.8,144.5 300.2,145.6 305.7,161.0 311.1,141.5 316.5,148.9 321.9,158.5 327.3,162.4 332.8,158.7 338.2,165.2 343.6,163.2" fill="none" stroke="#2a78d6" class="ln"/>
+<circle cx="56.3" cy="92.1" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1908: 32.5</title></circle>
+<circle cx="61.7" cy="78.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1909: 34.7</title></circle>
+<circle cx="67.1" cy="98.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1910: 31.4</title></circle>
+<circle cx="72.5" cy="101.7" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1911: 30.9</title></circle>
+<circle cx="78.0" cy="103.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1912: 30.6</title></circle>
+<circle cx="83.4" cy="118.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1913: 28.2</title></circle>
+<circle cx="88.8" cy="121.4" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1914: 27.7</title></circle>
+<circle cx="94.2" cy="89.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1915: 33.0</title></circle>
+<circle cx="99.6" cy="80.2" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1916: 34.4</title></circle>
+<circle cx="105.1" cy="110.7" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1917: 29.4</title></circle>
+<circle cx="110.5" cy="177.7" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1918: 18.5</title></circle>
+<circle cx="115.9" cy="200.2" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1919: 14.7</title></circle>
+<circle cx="121.3" cy="251.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1920: 6.4</title></circle>
+<circle cx="126.7" cy="184.3" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1921: 17.4</title></circle>
+<circle cx="132.2" cy="164.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1922: 20.7</title></circle>
+<circle cx="137.6" cy="154.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1923: 22.2</title></circle>
+<circle cx="143.0" cy="144.8" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1924: 23.8</title></circle>
+<circle cx="148.4" cy="132.2" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1925: 25.9</title></circle>
+<circle cx="153.9" cy="126.4" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1926: 26.9</title></circle>
+<circle cx="159.3" cy="135.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1927: 25.5</title></circle>
+<circle cx="164.7" cy="122.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1928: 27.6</title></circle>
+<circle cx="170.1" cy="117.7" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1929: 28.3</title></circle>
+<circle cx="175.5" cy="134.2" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1930: 25.6</title></circle>
+<circle cx="181.0" cy="149.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1931: 23.1</title></circle>
+<circle cx="186.4" cy="149.2" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1932: 23.1</title></circle>
+<circle cx="191.8" cy="123.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1933: 27.3</title></circle>
+<circle cx="197.2" cy="135.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1934: 25.5</title></circle>
+<circle cx="202.6" cy="139.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1935: 24.8</title></circle>
+<circle cx="208.1" cy="121.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1936: 27.7</title></circle>
+<circle cx="213.5" cy="137.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1937: 25.1</title></circle>
+<circle cx="218.9" cy="146.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1938: 23.6</title></circle>
+<circle cx="224.3" cy="125.9" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1939: 27.0</title></circle>
+<circle cx="229.8" cy="118.9" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1940: 28.1</title></circle>
+<circle cx="235.2" cy="98.4" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1941: 31.5</title></circle>
+<circle cx="240.6" cy="56.4" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1942: 38.4</title></circle>
+<circle cx="246.0" cy="61.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1943: 37.5</title></circle>
+<circle cx="251.4" cy="86.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1944: 33.4</title></circle>
+<circle cx="256.9" cy="163.7" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1945: 20.7</title></circle>
+<circle cx="262.3" cy="188.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1946: 16.7</title></circle>
+<circle cx="267.7" cy="157.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1947: 21.7</title></circle>
+<circle cx="273.1" cy="151.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1948: 22.7</title></circle>
+<circle cx="278.5" cy="169.9" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1949: 19.7</title></circle>
+<circle cx="284.0" cy="134.9" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1950: 25.5</title></circle>
+<circle cx="289.4" cy="152.4" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1951: 22.6</title></circle>
+<circle cx="294.8" cy="144.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1952: 23.9</title></circle>
+<circle cx="300.2" cy="145.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1953: 23.7</title></circle>
+<circle cx="305.7" cy="161.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1954: 21.2</title></circle>
+<circle cx="311.1" cy="141.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1955: 24.4</title></circle>
+<circle cx="316.5" cy="148.9" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1956: 23.2</title></circle>
+<circle cx="321.9" cy="158.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1957: 21.6</title></circle>
+<circle cx="327.3" cy="162.4" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1958: 21.0</title></circle>
+<circle cx="332.8" cy="158.7" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1959: 21.6</title></circle>
+<circle cx="338.2" cy="165.2" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1960: 20.5</title></circle>
+<circle cx="343.6" cy="163.2" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1961: 20.8</title></circle>
+<circle cx="343.6" cy="163.2" r="4" fill="#2a78d6" class="dot"/>
+<polyline points="593.0,151.8 598.4,145.5 603.8,150.1 609.3,117.7 614.7,114.9 620.1,106.3 625.5,103.4 630.9,98.4 636.4,91.4 641.8,87.6 647.2,78.2 652.6,70.0 658.0,68.9 663.5,62.1 668.9,52.3 674.3,61.9 679.7,92.7 685.2,74.5 690.6,73.2" fill="none" stroke="#2a78d6" class="ln"/>
+<circle cx="593.0" cy="151.8" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2007: 22.7</title></circle>
+<circle cx="598.4" cy="145.5" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2008: 23.7</title></circle>
+<circle cx="603.8" cy="150.1" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2009: 23.0</title></circle>
+<circle cx="609.3" cy="117.7" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2010: 28.3</title></circle>
+<circle cx="614.7" cy="114.9" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2011: 28.8</title></circle>
+<circle cx="620.1" cy="106.3" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2012: 30.2</title></circle>
+<circle cx="625.5" cy="103.4" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2013: 30.6</title></circle>
+<circle cx="630.9" cy="98.4" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2014: 31.5</title></circle>
+<circle cx="636.4" cy="91.4" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2015: 32.6</title></circle>
+<circle cx="641.8" cy="87.6" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2016: 33.2</title></circle>
+<circle cx="647.2" cy="78.2" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2017: 34.8</title></circle>
+<circle cx="652.6" cy="70.0" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2018: 36.1</title></circle>
+<circle cx="658.0" cy="68.9" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2019: 36.3</title></circle>
+<circle cx="663.5" cy="62.1" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2020: 37.4</title></circle>
+<circle cx="668.9" cy="52.3" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2021: 39.0</title></circle>
+<circle cx="674.3" cy="61.9" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2022: 37.5</title></circle>
+<circle cx="679.7" cy="92.7" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2023: 32.4</title></circle>
+<circle cx="685.2" cy="74.5" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2024: 35.4</title></circle>
+<circle cx="690.6" cy="73.2" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2025: 35.6</title></circle>
+<circle cx="690.6" cy="73.2" r="4" fill="#2a78d6" class="dot"/></svg>

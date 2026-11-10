@@ -1,0 +1,44 @@
+<svg viewBox="0 0 360 190" role="img" aria-label="Average operating margin by firm, grouped by mode" xmlns="http://www.w3.org/2000/svg"><style>
+text{font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif}
+.grid{stroke:#dfe3e9;stroke-width:1}.axis{stroke:#b9c0ca;stroke-width:1}
+.tick{fill:#7d8591;font-size:11px}.lab{fill:#4a515c;font-size:12px}.val{fill:#14171c;font-size:12px;font-weight:600}
+.dot{stroke:#ffffff;stroke-width:2}.mean{stroke:#14171c;stroke-width:2}
+.ln{stroke-width:2;stroke-linejoin:round;stroke-linecap:round}.ref{stroke-dasharray:4 4}
+.ann{stroke:#b9c0ca;stroke-width:1;stroke-dasharray:3 3}.band{fill:#dfe3e9;opacity:.55}
+</style><rect width="100%" height="100%" fill="#ffffff"/>
+<line x1="54.0" y1="14" x2="54.0" y2="164" class="grid"/><text x="54.0" y="180" class="tick" text-anchor="middle">0%</text>
+<line x1="119.5" y1="14" x2="119.5" y2="164" class="grid"/><text x="119.5" y="180" class="tick" text-anchor="middle">10%</text>
+<line x1="185.0" y1="14" x2="185.0" y2="164" class="grid"/><text x="185.0" y="180" class="tick" text-anchor="middle">20%</text>
+<line x1="250.5" y1="14" x2="250.5" y2="164" class="grid"/><text x="250.5" y="180" class="tick" text-anchor="middle">30%</text>
+<line x1="316.0" y1="14" x2="316.0" y2="164" class="grid"/><text x="316.0" y="180" class="tick" text-anchor="middle">40%</text>
+<line x1="54" y1="164" x2="316" y2="164" class="axis"/>
+<text x="44" y="40" class="lab" text-anchor="end">Rail</text>
+<line x1="270.5" y1="23" x2="270.5" y2="49" class="mean"/>
+<circle cx="258.9" cy="41" r="5" fill="#2a78d6" class="dot"><title>Norfolk Southern: 31.3%</title></circle>
+<circle cx="261.9" cy="31" r="5" fill="#2a78d6" class="dot"><title>Kansas City Southern: 31.7%</title></circle>
+<circle cx="264.8" cy="41" r="5" fill="#2a78d6" class="dot"><title>BNSF: 32.2%</title></circle>
+<circle cx="276.3" cy="31" r="5" fill="#2a78d6" class="dot"><title>CSX: 33.9%</title></circle>
+<circle cx="290.5" cy="41" r="5" fill="#2a78d6" class="dot"><title>Union Pacific: 36.1%</title></circle>
+<text x="322" y="40" class="val">33.1%</text>
+<text x="44" y="90" class="lab" text-anchor="end">Truck</text>
+<line x1="113.4" y1="73" x2="113.4" y2="99" class="mean"/>
+<circle cx="65.9" cy="91" r="5" fill="#eb6834" class="dot"><title>ArcBest: 1.8%</title></circle>
+<circle cx="94.8" cy="81" r="5" fill="#eb6834" class="dot"><title>Schneider: 6.2%</title></circle>
+<circle cx="101.9" cy="91" r="5" fill="#eb6834" class="dot"><title>Werner: 7.3%</title></circle>
+<circle cx="105.6" cy="81" r="5" fill="#eb6834" class="dot"><title>Marten: 7.9%</title></circle>
+<circle cx="109.1" cy="91" r="5" fill="#eb6834" class="dot"><title>Saia: 8.4%</title></circle>
+<circle cx="112.5" cy="81" r="5" fill="#eb6834" class="dot"><title>J.B. Hunt: 8.9%</title></circle>
+<circle cx="113.3" cy="91" r="5" fill="#eb6834" class="dot"><title>Knight-Swift: 9.1%</title></circle>
+<circle cx="140.3" cy="81" r="5" fill="#eb6834" class="dot"><title>Heartland Express: 13.2%</title></circle>
+<circle cx="176.9" cy="91" r="5" fill="#eb6834" class="dot"><title>Old Dominion: 18.8%</title></circle>
+<text x="322" y="90" class="val">9.1%</text>
+<text x="44" y="140" class="lab" text-anchor="end">Air</text>
+<line x1="80.2" y1="123" x2="80.2" y2="149" class="mean"/>
+<circle cx="58.2" cy="141" r="5" fill="#1baf7a" class="dot"><title>American: 0.6%</title></circle>
+<circle cx="68.5" cy="131" r="5" fill="#1baf7a" class="dot"><title>JetBlue: 2.2%</title></circle>
+<circle cx="75.1" cy="141" r="5" fill="#1baf7a" class="dot"><title>United: 3.2%</title></circle>
+<circle cx="84.1" cy="131" r="5" fill="#1baf7a" class="dot"><title>Delta: 4.6%</title></circle>
+<circle cx="91.1" cy="141" r="5" fill="#1baf7a" class="dot"><title>Southwest: 5.7%</title></circle>
+<circle cx="103.8" cy="131" r="5" fill="#1baf7a" class="dot"><title>Alaska Air: 7.6%</title></circle>
+<text x="322" y="140" class="val">4.0%</text>
+</svg>

@@ -1,0 +1,94 @@
+== Sample ==
+Firm-years: 322  Firms: 20  Years: 2009-2025
+       firms    n  margin  margin_sd    roa  ppe_per_rev
+mode                                                    
+Air        6  102    3.99      16.10   4.83         0.86
+Rail       5   81   33.11       5.07  10.71         2.57
+Truck      9  139    9.19       6.51  11.06         0.54
+
+== Firm means ==
+ mode                 firm  n  margin    sd  sd_ex2020   roa  ppe_rev
+  Air           Alaska Air 17    7.60 16.12       6.64  7.14     0.89
+  Air             American 17    0.65 16.64       5.83  2.49     0.75
+  Air                Delta 17    4.59 20.58       5.10  5.63     0.69
+  Air              JetBlue 17    2.22 17.30       7.92  3.22     1.23
+  Air            Southwest 17    5.67 13.81       6.41  6.15     0.86
+  Air               United 17    3.22 12.39       4.76  4.32     0.76
+ Rail                 BNSF 16   32.18  3.70       3.58  8.69     2.75
+ Rail                  CSX 17   33.94  5.82       5.69 11.50     2.50
+ Rail Kansas City Southern 14   31.73  5.08       4.93  9.51     3.21
+ Rail     Norfolk Southern 17   31.28  4.51       4.65  9.71     2.70
+ Rail        Union Pacific 17   36.11  4.93       4.98 13.69     2.33
+Truck              ArcBest 17    1.82  4.38       4.50  3.60     0.21
+Truck    Heartland Express 17   13.17  7.77       8.02 11.28     0.69
+Truck            J.B. Hunt 17    8.93  1.43       1.42 15.71     0.41
+Truck         Knight-Swift  9    9.06  4.79       4.98  5.22     0.64
+Truck               Marten 17    7.88  2.39       2.36  9.03     0.73
+Truck         Old Dominion 17   18.76  6.82       6.97 21.04     0.69
+Truck                 Saia 17    8.41  5.02       5.17 12.17     0.52
+Truck            Schneider 11    6.22  2.15       2.26  8.29     0.42
+Truck               Werner 17    7.31  2.78       2.81  9.24     0.57
+
+== Firm-level tests (n = 20) ==
+margin     ANOVA F(2,17) = 100.16, p = 3.92e-10 | Kruskal-Wallis H = 13.89, p = 0.000964
+roa        ANOVA F(2,17) = 4.65, p = 0.02445 | Kruskal-Wallis H = 8.65, p = 0.01321
+sd         ANOVA F(2,17) = 60.80, p = 1.793e-08 | Kruskal-Wallis H = 12.38, p = 0.002054
+sd_ex2020  ANOVA F(2,17) = 2.11, p = 0.1519 | Kruskal-Wallis H = 3.93, p = 0.1403
+Margin eta-squared = 0.922; Cohen's d (rail vs others) = 6.21
+Shapiro-Wilk p by group (Rail, Truck, Air): [np.float64(0.347), np.float64(0.319), np.float64(0.996)]
+Levene p = 0.551
+
+== Power (firm level, 5 rail vs 15 other, alpha = .05, two-tailed) ==
+Minimum detectable d at 80% power: 1.53
+Firms per group needed for d = 0.8 at 80% power: 25.5
+Pooled SD of firm ROA = 4.59 pts -> minimum detectable ROA gap = 7.0 pts
+
+== Panel regressions: year fixed effects, SEs clustered by firm (20 clusters) ==
+
+M1 margin: n = 322, R2 = 0.651
+                      b     se       t      p   ci_lo   ci_hi
+Intercept         3.812  2.365   1.612  0.123  -1.138   8.762
+C(mode)[T.Rail]  23.903  1.922  12.438  0.000  19.881  27.926
+C(mode)[T.Air]   -5.174  1.961  -2.639  0.016  -9.279  -1.070
+
+M1 margin, excluding 2020: n = 302, R2 = 0.792
+                      b     se       t      p   ci_lo   ci_hi
+Intercept         2.564  2.300   1.115  0.279  -2.249   7.377
+C(mode)[T.Rail]  23.780  1.934  12.299  0.000  19.734  27.827
+C(mode)[T.Air]   -1.328  1.979  -0.671  0.510  -5.471   2.814
+
+M2 margin + capital intensity: n = 305, R2 = 0.634
+                      b     se      t      p   ci_lo   ci_hi
+Intercept         3.201  3.199  1.001  0.330  -3.494   9.895
+C(mode)[T.Rail]  25.905  7.650  3.386  0.003   9.893  41.916
+C(mode)[T.Air]   -4.708  2.692 -1.749  0.096 -10.343   0.927
+log_ppe_rev      -1.129  4.783 -0.236  0.816 -11.140   8.883
+
+M3 return on assets: n = 318, R2 = 0.310
+                     b     se      t      p   ci_lo   ci_hi
+Intercept        6.572  2.867  2.293  0.033   0.572  12.572
+C(mode)[T.Rail] -0.437  2.061 -0.212  0.834  -4.750   3.875
+C(mode)[T.Air]  -6.239  1.984 -3.144  0.005 -10.391  -2.086
+
+M4 capital intensity only: n = 305, R2 = 0.394
+                  b     se      t    p  ci_lo   ci_hi
+Intercept     8.985  1.656  5.425  0.0  5.518  12.451
+log_ppe_rev  11.720  2.424  4.834  0.0  6.646  16.794
+
+Robustness, fiscal 2007-2025 (n = 344): rail coefficient = 23.45 (SE 1.91)
+
+M1 residual Shapiro-Wilk W = 0.841, p = 1.54e-17
+M1 Breusch-Pagan LM = 137.1, p = 2.35e-20
+
+Firm level: r(margin, log PP&E/revenue) = 0.83, p = 6.59e-06; Spearman rho = 0.45, p = 0.049
+
+== Price indexes ==
+Real rail rate (1980 = 100): {1969: 79.0, 1980: 100.0, 1981: 104.3, 2001: 71.5, 2025: 90.5}
+Change 1981-2001: -31.5%; 2001-2025: 26.6%
+Real airfare (1989 = 100), 2025: 74.9
+rail  2004-2025: 112.3%
+truck 2004-2025: 74.6%
+air   2004-2025: 12.9%
+cpi   2004-2025: 70.4%
+Years with a price decline, 2005-2025: {'rail': 3, 'truck': 6, 'air': 11, 'cpi': 1}
+Levene test on annual % changes (rail, truck, air): p = 0.317

@@ -1,0 +1,80 @@
+<svg viewBox="0 0 720 320" role="img" aria-label="Inflation-adjusted rail freight rates, 1969 to 2025, indexed to 1980" xmlns="http://www.w3.org/2000/svg"><style>
+text{font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif}
+.grid{stroke:#dfe3e9;stroke-width:1}.axis{stroke:#b9c0ca;stroke-width:1}
+.tick{fill:#7d8591;font-size:11px}.lab{fill:#4a515c;font-size:12px}.val{fill:#14171c;font-size:12px;font-weight:600}
+.dot{stroke:#ffffff;stroke-width:2}.mean{stroke:#14171c;stroke-width:2}
+.ln{stroke-width:2;stroke-linejoin:round;stroke-linecap:round}.ref{stroke-dasharray:4 4}
+.ann{stroke:#b9c0ca;stroke-width:1;stroke-dasharray:3 3}.band{fill:#dfe3e9;opacity:.55}
+</style><rect width="100%" height="100%" fill="#ffffff"/><line x1="40" y1="290.0" x2="650" y2="290.0" class="grid"/><text x="34" y="294.0" class="tick" text-anchor="end">60</text>
+<line x1="40" y1="235.2" x2="650" y2="235.2" class="grid"/><text x="34" y="239.2" class="tick" text-anchor="end">70</text>
+<line x1="40" y1="180.4" x2="650" y2="180.4" class="grid"/><text x="34" y="184.4" class="tick" text-anchor="end">80</text>
+<line x1="40" y1="125.6" x2="650" y2="125.6" class="grid"/><text x="34" y="129.6" class="tick" text-anchor="end">90</text>
+<line x1="40" y1="70.8" x2="650" y2="70.8" class="grid"/><text x="34" y="74.8" class="tick" text-anchor="end">100</text>
+<line x1="40" y1="16.0" x2="650" y2="16.0" class="grid"/><text x="34" y="20.0" class="tick" text-anchor="end">110</text>
+<text x="50.9" y="308" class="tick" text-anchor="middle">1970</text>
+<text x="159.8" y="308" class="tick" text-anchor="middle">1980</text>
+<text x="268.8" y="308" class="tick" text-anchor="middle">1990</text>
+<text x="377.7" y="308" class="tick" text-anchor="middle">2000</text>
+<text x="486.6" y="308" class="tick" text-anchor="middle">2010</text>
+<text x="595.5" y="308" class="tick" text-anchor="middle">2020</text>
+<line x1="40" y1="290" x2="650" y2="290" class="axis"/>
+<line x1="159.8" y1="16.0" x2="159.8" y2="290.0" class="ann"/><text x="165.8" y="282.0" class="tick">Staggers Act, 1980</text><circle cx="170.7" cy="47.3" r="4" fill="#2a78d6" class="dot"/><text x="162.7" y="39.3" class="lab" text-anchor="end">1981: 104</text><circle cx="388.6" cy="227.2" r="4" fill="#2a78d6" class="dot"/><text x="388.6" y="245.2" class="lab" text-anchor="middle">2001 low: 72</text><circle cx="650.0" cy="123.1" r="4" fill="#2a78d6" class="dot"/><text x="658.0" y="127.1" class="lab" text-anchor="start">2025: 91</text>
+<polyline points="40.0,185.7 50.9,174.1 61.8,138.5 72.7,140.2 83.6,156.8 94.5,136.9 105.4,118.9 116.2,98.5 127.1,97.5 138.0,100.4 148.9,86.7 159.8,70.8 170.7,47.3 181.6,41.5 192.5,52.0 203.4,50.7 214.3,66.6 225.2,73.0 236.1,95.2 247.0,92.3 257.9,108.4 268.8,129.8 279.6,141.6 290.5,152.9 301.4,162.7 312.3,170.2 323.2,182.9 334.1,196.4 345.0,203.7 355.9,205.2 366.8,215.4 377.7,223.6 388.6,227.2 399.5,225.7 410.4,226.5 421.2,220.8 432.1,193.7 443.0,171.8 453.9,168.1 464.8,134.2 475.7,160.0 486.6,143.7 497.5,118.2 508.4,106.3 519.3,97.6 530.2,96.3 541.1,116.6 552.0,134.1 562.9,126.9 573.8,111.6 584.6,105.6 595.5,111.9 606.4,111.0 617.3,104.7 628.2,114.7 639.1,119.4 650.0,123.1" fill="none" stroke="#2a78d6" class="ln"/>
+<circle cx="40.0" cy="185.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1969: 79.0</title></circle>
+<circle cx="50.9" cy="174.1" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1970: 81.2</title></circle>
+<circle cx="61.8" cy="138.5" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1971: 87.6</title></circle>
+<circle cx="72.7" cy="140.2" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1972: 87.3</title></circle>
+<circle cx="83.6" cy="156.8" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1973: 84.3</title></circle>
+<circle cx="94.5" cy="136.9" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1974: 87.9</title></circle>
+<circle cx="105.4" cy="118.9" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1975: 91.2</title></circle>
+<circle cx="116.2" cy="98.5" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1976: 95.0</title></circle>
+<circle cx="127.1" cy="97.5" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1977: 95.1</title></circle>
+<circle cx="138.0" cy="100.4" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1978: 94.6</title></circle>
+<circle cx="148.9" cy="86.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1979: 97.1</title></circle>
+<circle cx="159.8" cy="70.8" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1980: 100.0</title></circle>
+<circle cx="170.7" cy="47.3" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1981: 104.3</title></circle>
+<circle cx="181.6" cy="41.5" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1982: 105.3</title></circle>
+<circle cx="192.5" cy="52.0" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1983: 103.4</title></circle>
+<circle cx="203.4" cy="50.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1984: 103.7</title></circle>
+<circle cx="214.3" cy="66.6" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1985: 100.8</title></circle>
+<circle cx="225.2" cy="73.0" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1986: 99.6</title></circle>
+<circle cx="236.1" cy="95.2" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1987: 95.6</title></circle>
+<circle cx="247.0" cy="92.3" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1988: 96.1</title></circle>
+<circle cx="257.9" cy="108.4" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1989: 93.1</title></circle>
+<circle cx="268.8" cy="129.8" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1990: 89.2</title></circle>
+<circle cx="279.6" cy="141.6" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1991: 87.1</title></circle>
+<circle cx="290.5" cy="152.9" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1992: 85.0</title></circle>
+<circle cx="301.4" cy="162.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1993: 83.2</title></circle>
+<circle cx="312.3" cy="170.2" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1994: 81.9</title></circle>
+<circle cx="323.2" cy="182.9" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1995: 79.5</title></circle>
+<circle cx="334.1" cy="196.4" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1996: 77.1</title></circle>
+<circle cx="345.0" cy="203.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1997: 75.7</title></circle>
+<circle cx="355.9" cy="205.2" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1998: 75.5</title></circle>
+<circle cx="366.8" cy="215.4" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1999: 73.6</title></circle>
+<circle cx="377.7" cy="223.6" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2000: 72.1</title></circle>
+<circle cx="388.6" cy="227.2" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2001: 71.5</title></circle>
+<circle cx="399.5" cy="225.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2002: 71.7</title></circle>
+<circle cx="410.4" cy="226.5" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2003: 71.6</title></circle>
+<circle cx="421.2" cy="220.8" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2004: 72.6</title></circle>
+<circle cx="432.1" cy="193.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2005: 77.6</title></circle>
+<circle cx="443.0" cy="171.8" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2006: 81.6</title></circle>
+<circle cx="453.9" cy="168.1" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2007: 82.2</title></circle>
+<circle cx="464.8" cy="134.2" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2008: 88.4</title></circle>
+<circle cx="475.7" cy="160.0" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2009: 83.7</title></circle>
+<circle cx="486.6" cy="143.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2010: 86.7</title></circle>
+<circle cx="497.5" cy="118.2" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2011: 91.3</title></circle>
+<circle cx="508.4" cy="106.3" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2012: 93.5</title></circle>
+<circle cx="519.3" cy="97.6" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2013: 95.1</title></circle>
+<circle cx="530.2" cy="96.3" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2014: 95.3</title></circle>
+<circle cx="541.1" cy="116.6" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2015: 91.6</title></circle>
+<circle cx="552.0" cy="134.1" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2016: 88.5</title></circle>
+<circle cx="562.9" cy="126.9" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2017: 89.8</title></circle>
+<circle cx="573.8" cy="111.6" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2018: 92.6</title></circle>
+<circle cx="584.6" cy="105.6" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2019: 93.6</title></circle>
+<circle cx="595.5" cy="111.9" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2020: 92.5</title></circle>
+<circle cx="606.4" cy="111.0" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2021: 92.7</title></circle>
+<circle cx="617.3" cy="104.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2022: 93.8</title></circle>
+<circle cx="628.2" cy="114.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2023: 92.0</title></circle>
+<circle cx="639.1" cy="119.4" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2024: 91.1</title></circle>
+<circle cx="650.0" cy="123.1" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2025: 90.5</title></circle>
+<circle cx="650.0" cy="123.1" r="4" fill="#2a78d6" class="dot"/></svg>

@@ -1,0 +1,31 @@
+== Freight rates, 1865-1955 ==
+Real rate (1886 = 100): {1865: 219.0, 1886: 100.0, 1900: 67.0, 1916: 47.0, 1955: 37.0}
+Nominal cents per ton-mile, thirteen railroads: {1865: 3.08, 1890: 0.8}
+Years with a lower nominal rate than the year before, 1866-1900: 30 of 35
+
+== Construction and the crises Hadley names ==
+Miles built 1872: 7,439
+Miles built 1882: 11,599
+Miles built 1887: 13,081
+Railroad stocks 1857-1859: peak 1857-01 21.2, trough 1857-10 12.8, drawdown -39.5%
+Railroad stocks 1872-1877: peak 1872-04 45.2, trough 1877-06 23.6, drawdown -47.8%
+Railroad stocks 1881-1885: peak 1881-06 59.0, trough 1885-01 38.1, drawdown -35.4%
+
+== Does a construction boom precede faster rate declines? 1866-1913 ==
+lag 0: r = +0.09, p = 0.556, n = 48
+lag 1: r = +0.29, p = 0.051, n = 47
+lag 2: r = +0.23, p = 0.127, n = 46
+lag 3: r = +0.25, p = 0.092, n = 45
+lag 4: r = +0.34, p = 0.024, n = 44
+lag 5: r = +0.07, p = 0.675, n = 43
+Hadley predicts a negative correlation. None of the lags is negative.
+
+== Operating margin before and after federal rate control ==
+1908-1916: mean 31.5%, SD 2.5, n = 9
+1921-1929: mean 24.3%, SD 3.6, n = 9
+1930-1939: mean 25.3%, SD 1.7, n = 10
+1946-1961: mean 21.9%, SD 2.1, n = 16
+1908-16 vs 1921-61 excluding 1941-45: 31.5% vs 23.6%, Welch t(14) = 8.25, p = 9.6e-07
+
+== Track mileage (thousands of miles) ==
+1890: 199.9  1916: 394.9  1942: 399.6

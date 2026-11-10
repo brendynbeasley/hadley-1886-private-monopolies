@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hadley Tested</title>
+<meta name="description" content="An empirical test of Arthur T. Hadley's 1886 essay Private Monopolies and Public Rights using SEC filings and NBER and FRED data.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column (essay measure), with figures and tables allowed a wider track. */
+:root{--bg:#f7f8fa;--surface:#ffffff;--fg:#14171c;--fg2:#4a515c;--muted:#7d8591;--rule:#dfe3e9;--axis:#b9c0ca;--accent:#1c5cab;--tag:#e9eff8;
+--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;
+--serif:"Newsreader",Georgia,"Times New Roman",serif;--sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#101216;--surface:#191c21;--fg:#eceef1;--fg2:#b9bfc8;--muted:#8a919c;--rule:#2b3038;--axis:#3d434d;--accent:#86b6ef;--tag:#1f2a3a;--s1:#3987e5;--s2:#d95926;--s3:#199e70;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101216;--surface:#191c21;--fg:#eceef1;--fg2:#b9bfc8;--muted:#8a919c;--rule:#2b3038;--axis:#3d434d;--accent:#86b6ef;--tag:#1f2a3a;--s1:#3987e5;--s2:#d95926;--s3:#199e70;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.6}
+.wrap{max-width:860px;margin:0 auto;padding-block:40px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:48px}
+.col{max-width:680px}
+header .kicker{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,5vw,44px);line-height:1.1;margin:0 0 14px;text-wrap:balance}
+h2{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.2;margin:0 0 16px;text-wrap:balance}
+h3{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:28px 0 8px;font-weight:600}
+h4{font-size:15px;margin:18px 0 4px;font-weight:600}
+p{margin:0 0 14px}.lede{font-size:17px;color:var(--fg2);max-width:680px}
+a{color:var(--accent)}a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section{min-width:0}
+.find{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px 28px;margin:0;padding:20px 0 0;border-top:1px solid var(--rule);list-style:none}
+.find b{display:block;font-family:var(--serif);font-size:28px;font-weight:500;line-height:1.1;font-variant-numeric:tabular-nums}
+.find span{color:var(--fg2);font-size:14px}
+figure{margin:0 0 28px;background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:18px 18px 12px}
+figure h4{margin:0 0 2px;font-size:15px}figure .sub{color:var(--fg2);font-size:13px;margin:0 0 10px}
+figcaption{color:var(--muted);font-size:12px;margin-top:8px}
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 24px}.pair>div{min-width:0}
+.chart{width:100%;height:auto;display:block;font-family:var(--sans)}
+.chart .grid{stroke:var(--rule);stroke-width:1}.chart .axis{stroke:var(--axis);stroke-width:1}
+.chart .tick{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
+.chart .lab{fill:var(--fg2);font-size:12px}.chart .val{fill:var(--fg);font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.chart .dot{stroke:var(--surface);stroke-width:2}.chart .mean{stroke:var(--fg);stroke-width:2}
+.chart .ln{stroke-width:2;stroke-linejoin:round;stroke-linecap:round}.chart .ref{stroke-dasharray:4 4}
+
+.chart .band{fill:var(--rule);opacity:.55}
+.chart .ann{stroke:var(--axis);stroke-width:1;stroke-dasharray:3 3}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--fg2);margin:0 0 6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.essay{font-family:var(--serif);font-size:19px;line-height:1.62;max-width:680px}.essay p{margin:0 0 18px}
+.essay cite{font-style:italic}
+.byline{font-family:var(--sans);font-size:13px;color:var(--muted);margin:0 0 20px}
+.tw{overflow-x:auto;margin:8px 0 16px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:600;color:var(--fg2);font-size:12px;white-space:nowrap}td.n,th.n{text-align:right}
+.inf{display:inline-block;background:var(--tag);color:var(--accent);font-size:11px;font-weight:600;padding:1px 6px;border-radius:3px;white-space:nowrap}
+.eq{font-family:var(--serif);font-size:18px;font-style:italic;background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:12px 16px;overflow-x:auto;white-space:nowrap;margin:8px 0 12px}
+.meth ul{margin:0 0 12px;padding-left:20px}.meth li{margin-bottom:6px}
+details{border-top:1px solid var(--rule);padding-top:10px}summary{cursor:pointer;font-weight:600;font-size:14px}
+.note{color:var(--fg2);font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<p class="kicker">Hadley, "Private Monopolies and Public Rights," QJE vol. 1 no. 1, October 1886</p>
+<h1>Was Hadley right about railroads? A test with modern company data</h1>
+<p class="lede">Hadley argued that industries with heavy fixed costs cannot sustain competition. Rate wars end in merger, and prices then recover. This page tests that claim on 20 real US transport companies (322 firm-years of SEC filings, fiscal 2009 to 2025) on federal price indexes going back to 1969, and on historical railroad records that start in 1830.</p>
+<ul class="find">
+<li><b>33% vs 9% vs 4%</b><span>Average operating margin: railroads, truckers, airlines. Railroads own their track. The other two run on public infrastructure.</span></li>
+<li><b>10.6% vs 10.6%</b><span>Operating return on assets, rail vs trucking. Once the cost of the track is counted, the rail advantage is gone.</span></li>
+<li><b>4.8%</b><span>Airline return on assets. Hadley's "ruinous competition" case: falling fares, bankruptcies, then mergers.</span></li>
+<li><b>&minus;31%, then +27%</b><span>Real rail rates fell from 1981 to 2001 while the industry consolidated, and have risen since.</span></li>
+<li><b>219 &rarr; 100</b><span>Real freight rate index, 1865 to 1886. Shippers' costs more than halved in the two decades before Hadley wrote.</span></li>
+<li><b>31.5% &rarr; 23.6%</b><span>Railroad operating margin before 1917 and from 1921 to 1961, after regulators took control of rates.</span></li>
+</ul>
+</header>
+
+<section>
+<h2>Today: 2009 to 2025, with prices from 1969</h2>
+<figure>
+<h4>Railroads keep far more of each revenue dollar, but earn about the same on their assets as truckers</h4>
+<p class="sub">Each dot is one company's average, fiscal 2009 to 2025. The black bar is the group mean. Hover a dot for the company.</p>
+<div class="pair">
+<div><p class="note"><strong>Operating margin</strong> (operating income &divide; revenue)</p><svg viewBox="0 0 360 190" role="img" aria-label="Average operating margin by firm, grouped by mode" class="chart">
+<line x1="54.0" y1="14" x2="54.0" y2="164" class="grid"/><text x="54.0" y="180" class="tick" text-anchor="middle">0%</text>
+<line x1="119.5" y1="14" x2="119.5" y2="164" class="grid"/><text x="119.5" y="180" class="tick" text-anchor="middle">10%</text>
+<line x1="185.0" y1="14" x2="185.0" y2="164" class="grid"/><text x="185.0" y="180" class="tick" text-anchor="middle">20%</text>
+<line x1="250.5" y1="14" x2="250.5" y2="164" class="grid"/><text x="250.5" y="180" class="tick" text-anchor="middle">30%</text>
+<line x1="316.0" y1="14" x2="316.0" y2="164" class="grid"/><text x="316.0" y="180" class="tick" text-anchor="middle">40%</text>
+<line x1="54" y1="164" x2="316" y2="164" class="axis"/>
+<text x="44" y="40" class="lab" text-anchor="end">Rail</text>
+<line x1="270.5" y1="23" x2="270.5" y2="49" class="mean"/>
+<circle cx="258.9" cy="41" r="5" fill="var(--s1)" class="dot"><title>Norfolk Southern: 31.3%</title></circle>
+<circle cx="261.9" cy="31" r="5" fill="var(--s1)" class="dot"><title>Kansas City Southern: 31.7%</title></circle>
+<circle cx="264.8" cy="41" r="5" fill="var(--s1)" class="dot"><title>BNSF: 32.2%</title></circle>
+<circle cx="276.3" cy="31" r="5" fill="var(--s1)" class="dot"><title>CSX: 33.9%</title></circle>
+<circle cx="290.5" cy="41" r="5" fill="var(--s1)" class="dot"><title>Union Pacific: 36.1%</title></circle>
+<text x="322" y="40" class="val">33.1%</text>
+<text x="44" y="90" class="lab" text-anchor="end">Truck</text>
+<line x1="113.4" y1="73" x2="113.4" y2="99" class="mean"/>
+<circle cx="65.9" cy="91" r="5" fill="var(--s2)" class="dot"><title>ArcBest: 1.8%</title></circle>
+<circle cx="94.8" cy="81" r="5" fill="var(--s2)" class="dot"><title>Schneider: 6.2%</title></circle>
+<circle cx="101.9" cy="91" r="5" fill="var(--s2)" class="dot"><title>Werner: 7.3%</title></circle>
+<circle cx="105.6" cy="81" r="5" fill="var(--s2)" class="dot"><title>Marten: 7.9%</title></circle>
+<circle cx="109.1" cy="91" r="5" fill="var(--s2)" class="dot"><title>Saia: 8.4%</title></circle>
+<circle cx="112.5" cy="81" r="5" fill="var(--s2)" class="dot"><title>J.B. Hunt: 8.9%</title></circle>
+<circle cx="113.3" cy="91" r="5" fill="var(--s2)" class="dot"><title>Knight-Swift: 9.1%</title></circle>
+<circle cx="140.3" cy="81" r="5" fill="var(--s2)" class="dot"><title>Heartland Express: 13.2%</title></circle>
+<circle cx="176.9" cy="91" r="5" fill="var(--s2)" class="dot"><title>Old Dominion: 18.8%</title></circle>
+<text x="322" y="90" class="val">9.1%</text>
+<text x="44" y="140" class="lab" text-anchor="end">Air</text>
+<line x1="80.2" y1="123" x2="80.2" y2="149" class="mean"/>
+<circle cx="58.2" cy="141" r="5" fill="var(--s3)" class="dot"><title>American: 0.6%</title></circle>
+<circle cx="68.5" cy="131" r="5" fill="var(--s3)" class="dot"><title>JetBlue: 2.2%</title></circle>
+<circle cx="75.1" cy="141" r="5" fill="var(--s3)" class="dot"><title>United: 3.2%</title></circle>
+<circle cx="84.1" cy="131" r="5" fill="var(--s3)" class="dot"><title>Delta: 4.6%</title></circle>
+<circle cx="91.1" cy="141" r="5" fill="var(--s3)" class="dot"><title>Southwest: 5.7%</title></circle>
+<circle cx="103.8" cy="131" r="5" fill="var(--s3)" class="dot"><title>Alaska Air: 7.6%</title></circle>
+<text x="322" y="140" class="val">4.0%</text>
+</svg></div>
+<div><p class="note"><strong>Return on assets</strong> (operating income &divide; assets)</p><svg viewBox="0 0 360 190" role="img" aria-label="Average operating return on assets by firm, grouped by mode" class="chart">
+<line x1="54.0" y1="14" x2="54.0" y2="164" class="grid"/><text x="54.0" y="180" class="tick" text-anchor="middle">0%</text>
+<line x1="106.4" y1="14" x2="106.4" y2="164" class="grid"/><text x="106.4" y="180" class="tick" text-anchor="middle">5%</text>
+<line x1="158.8" y1="14" x2="158.8" y2="164" class="grid"/><text x="158.8" y="180" class="tick" text-anchor="middle">10%</text>
+<line x1="211.2" y1="14" x2="211.2" y2="164" class="grid"/><text x="211.2" y="180" class="tick" text-anchor="middle">15%</text>
+<line x1="263.6" y1="14" x2="263.6" y2="164" class="grid"/><text x="263.6" y="180" class="tick" text-anchor="middle">20%</text>
+<line x1="316.0" y1="14" x2="316.0" y2="164" class="grid"/><text x="316.0" y="180" class="tick" text-anchor="middle">25%</text>
+<line x1="54" y1="164" x2="316" y2="164" class="axis"/>
+<text x="44" y="40" class="lab" text-anchor="end">Rail</text>
+<line x1="165.3" y1="23" x2="165.3" y2="49" class="mean"/>
+<circle cx="145.1" cy="41" r="5" fill="var(--s1)" class="dot"><title>BNSF: 8.7%</title></circle>
+<circle cx="153.7" cy="31" r="5" fill="var(--s1)" class="dot"><title>Kansas City Southern: 9.5%</title></circle>
+<circle cx="155.7" cy="41" r="5" fill="var(--s1)" class="dot"><title>Norfolk Southern: 9.7%</title></circle>
+<circle cx="174.5" cy="31" r="5" fill="var(--s1)" class="dot"><title>CSX: 11.5%</title></circle>
+<circle cx="197.5" cy="41" r="5" fill="var(--s1)" class="dot"><title>Union Pacific: 13.7%</title></circle>
+<text x="322" y="40" class="val">10.6%</text>
+<text x="44" y="90" class="lab" text-anchor="end">Truck</text>
+<line x1="165.3" y1="73" x2="165.3" y2="99" class="mean"/>
+<circle cx="91.7" cy="91" r="5" fill="var(--s2)" class="dot"><title>ArcBest: 3.6%</title></circle>
+<circle cx="108.7" cy="81" r="5" fill="var(--s2)" class="dot"><title>Knight-Swift: 5.2%</title></circle>
+<circle cx="140.9" cy="91" r="5" fill="var(--s2)" class="dot"><title>Schneider: 8.3%</title></circle>
+<circle cx="148.6" cy="81" r="5" fill="var(--s2)" class="dot"><title>Marten: 9.0%</title></circle>
+<circle cx="150.9" cy="91" r="5" fill="var(--s2)" class="dot"><title>Werner: 9.2%</title></circle>
+<circle cx="172.3" cy="81" r="5" fill="var(--s2)" class="dot"><title>Heartland Express: 11.3%</title></circle>
+<circle cx="181.5" cy="91" r="5" fill="var(--s2)" class="dot"><title>Saia: 12.2%</title></circle>
+<circle cx="218.6" cy="81" r="5" fill="var(--s2)" class="dot"><title>J.B. Hunt: 15.7%</title></circle>
+<circle cx="274.5" cy="91" r="5" fill="var(--s2)" class="dot"><title>Old Dominion: 21.0%</title></circle>
+<text x="322" y="90" class="val">10.6%</text>
+<text x="44" y="140" class="lab" text-anchor="end">Air</text>
+<line x1="104.6" y1="123" x2="104.6" y2="149" class="mean"/>
+<circle cx="80.1" cy="141" r="5" fill="var(--s3)" class="dot"><title>American: 2.5%</title></circle>
+<circle cx="87.7" cy="131" r="5" fill="var(--s3)" class="dot"><title>JetBlue: 3.2%</title></circle>
+<circle cx="99.3" cy="141" r="5" fill="var(--s3)" class="dot"><title>United: 4.3%</title></circle>
+<circle cx="113.0" cy="131" r="5" fill="var(--s3)" class="dot"><title>Delta: 5.6%</title></circle>
+<circle cx="118.5" cy="141" r="5" fill="var(--s3)" class="dot"><title>Southwest: 6.2%</title></circle>
+<circle cx="128.9" cy="131" r="5" fill="var(--s3)" class="dot"><title>Alaska Air: 7.1%</title></circle>
+<text x="322" y="140" class="val">4.8%</text>
+</svg></div>
+</div>
+<figcaption>Source: SEC EDGAR XBRL company facts, annual 10-K filings. 5 railroads, 9 trucking companies, 6 airlines.</figcaption>
+</figure>
+<figure>
+<h4>Real rail rates fell for twenty years after deregulation, then turned up</h4>
+<p class="sub">Producer price index for line-haul railroads divided by the consumer price index, 1980 = 100.</p>
+<svg viewBox="0 0 720 320" role="img" aria-label="Inflation-adjusted rail freight rates, 1969 to 2025, indexed to 1980" class="chart"><line x1="40" y1="290.0" x2="650" y2="290.0" class="grid"/><text x="34" y="294.0" class="tick" text-anchor="end">60</text>
+<line x1="40" y1="235.2" x2="650" y2="235.2" class="grid"/><text x="34" y="239.2" class="tick" text-anchor="end">70</text>
+<line x1="40" y1="180.4" x2="650" y2="180.4" class="grid"/><text x="34" y="184.4" class="tick" text-anchor="end">80</text>
+<line x1="40" y1="125.6" x2="650" y2="125.6" class="grid"/><text x="34" y="129.6" class="tick" text-anchor="end">90</text>
+<line x1="40" y1="70.8" x2="650" y2="70.8" class="grid"/><text x="34" y="74.8" class="tick" text-anchor="end">100</text>
+<line x1="40" y1="16.0" x2="650" y2="16.0" class="grid"/><text x="34" y="20.0" class="tick" text-anchor="end">110</text>
+<text x="50.9" y="308" class="tick" text-anchor="middle">1970</text>
+<text x="159.8" y="308" class="tick" text-anchor="middle">1980</text>
+<text x="268.8" y="308" class="tick" text-anchor="middle">1990</text>
+<text x="377.7" y="308" class="tick" text-anchor="middle">2000</text>
+<text x="486.6" y="308" class="tick" text-anchor="middle">2010</text>
+<text x="595.5" y="308" class="tick" text-anchor="middle">2020</text>
+<line x1="40" y1="290" x2="650" y2="290" class="axis"/>
+<line x1="159.8" y1="16.0" x2="159.8" y2="290.0" class="ann"/><text x="165.8" y="282.0" class="tick">Staggers Act, 1980</text><circle cx="170.7" cy="47.3" r="4" fill="var(--s1)" class="dot"/><text x="162.7" y="39.3" class="lab" text-anchor="end">1981: 104</text><circle cx="388.6" cy="227.2" r="4" fill="var(--s1)" class="dot"/><text x="388.6" y="245.2" class="lab" text-anchor="middle">2001 low: 72</text><circle cx="650.0" cy="123.1" r="4" fill="var(--s1)" class="dot"/><text x="658.0" y="127.1" class="lab" text-anchor="start">2025: 91</text>
+<polyline points="40.0,185.7 50.9,174.1 61.8,138.5 72.7,140.2 83.6,156.8 94.5,136.9 105.4,118.9 116.2,98.5 127.1,97.5 138.0,100.4 148.9,86.7 159.8,70.8 170.7,47.3 181.6,41.5 192.5,52.0 203.4,50.7 214.3,66.6 225.2,73.0 236.1,95.2 247.0,92.3 257.9,108.4 268.8,129.8 279.6,141.6 290.5,152.9 301.4,162.7 312.3,170.2 323.2,182.9 334.1,196.4 345.0,203.7 355.9,205.2 366.8,215.4 377.7,223.6 388.6,227.2 399.5,225.7 410.4,226.5 421.2,220.8 432.1,193.7 443.0,171.8 453.9,168.1 464.8,134.2 475.7,160.0 486.6,143.7 497.5,118.2 508.4,106.3 519.3,97.6 530.2,96.3 541.1,116.6 552.0,134.1 562.9,126.9 573.8,111.6 584.6,105.6 595.5,111.9 606.4,111.0 617.3,104.7 628.2,114.7 639.1,119.4 650.0,123.1" fill="none" stroke="var(--s1)" class="ln"/>
+<circle cx="40.0" cy="185.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1969: 79.0</title></circle>
+<circle cx="50.9" cy="174.1" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1970: 81.2</title></circle>
+<circle cx="61.8" cy="138.5" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1971: 87.6</title></circle>
+<circle cx="72.7" cy="140.2" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1972: 87.3</title></circle>
+<circle cx="83.6" cy="156.8" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1973: 84.3</title></circle>
+<circle cx="94.5" cy="136.9" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1974: 87.9</title></circle>
+<circle cx="105.4" cy="118.9" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1975: 91.2</title></circle>
+<circle cx="116.2" cy="98.5" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1976: 95.0</title></circle>
+<circle cx="127.1" cy="97.5" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1977: 95.1</title></circle>
+<circle cx="138.0" cy="100.4" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1978: 94.6</title></circle>
+<circle cx="148.9" cy="86.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1979: 97.1</title></circle>
+<circle cx="159.8" cy="70.8" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1980: 100.0</title></circle>
+<circle cx="170.7" cy="47.3" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1981: 104.3</title></circle>
+<circle cx="181.6" cy="41.5" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1982: 105.3</title></circle>
+<circle cx="192.5" cy="52.0" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1983: 103.4</title></circle>
+<circle cx="203.4" cy="50.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1984: 103.7</title></circle>
+<circle cx="214.3" cy="66.6" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1985: 100.8</title></circle>
+<circle cx="225.2" cy="73.0" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1986: 99.6</title></circle>
+<circle cx="236.1" cy="95.2" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1987: 95.6</title></circle>
+<circle cx="247.0" cy="92.3" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1988: 96.1</title></circle>
+<circle cx="257.9" cy="108.4" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1989: 93.1</title></circle>
+<circle cx="268.8" cy="129.8" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1990: 89.2</title></circle>
+<circle cx="279.6" cy="141.6" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1991: 87.1</title></circle>
+<circle cx="290.5" cy="152.9" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1992: 85.0</title></circle>
+<circle cx="301.4" cy="162.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1993: 83.2</title></circle>
+<circle cx="312.3" cy="170.2" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1994: 81.9</title></circle>
+<circle cx="323.2" cy="182.9" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1995: 79.5</title></circle>
+<circle cx="334.1" cy="196.4" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1996: 77.1</title></circle>
+<circle cx="345.0" cy="203.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1997: 75.7</title></circle>
+<circle cx="355.9" cy="205.2" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1998: 75.5</title></circle>
+<circle cx="366.8" cy="215.4" r="7" fill="transparent" stroke="none"><title>Real rail rate, 1999: 73.6</title></circle>
+<circle cx="377.7" cy="223.6" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2000: 72.1</title></circle>
+<circle cx="388.6" cy="227.2" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2001: 71.5</title></circle>
+<circle cx="399.5" cy="225.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2002: 71.7</title></circle>
+<circle cx="410.4" cy="226.5" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2003: 71.6</title></circle>
+<circle cx="421.2" cy="220.8" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2004: 72.6</title></circle>
+<circle cx="432.1" cy="193.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2005: 77.6</title></circle>
+<circle cx="443.0" cy="171.8" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2006: 81.6</title></circle>
+<circle cx="453.9" cy="168.1" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2007: 82.2</title></circle>
+<circle cx="464.8" cy="134.2" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2008: 88.4</title></circle>
+<circle cx="475.7" cy="160.0" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2009: 83.7</title></circle>
+<circle cx="486.6" cy="143.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2010: 86.7</title></circle>
+<circle cx="497.5" cy="118.2" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2011: 91.3</title></circle>
+<circle cx="508.4" cy="106.3" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2012: 93.5</title></circle>
+<circle cx="519.3" cy="97.6" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2013: 95.1</title></circle>
+<circle cx="530.2" cy="96.3" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2014: 95.3</title></circle>
+<circle cx="541.1" cy="116.6" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2015: 91.6</title></circle>
+<circle cx="552.0" cy="134.1" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2016: 88.5</title></circle>
+<circle cx="562.9" cy="126.9" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2017: 89.8</title></circle>
+<circle cx="573.8" cy="111.6" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2018: 92.6</title></circle>
+<circle cx="584.6" cy="105.6" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2019: 93.6</title></circle>
+<circle cx="595.5" cy="111.9" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2020: 92.5</title></circle>
+<circle cx="606.4" cy="111.0" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2021: 92.7</title></circle>
+<circle cx="617.3" cy="104.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2022: 93.8</title></circle>
+<circle cx="628.2" cy="114.7" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2023: 92.0</title></circle>
+<circle cx="639.1" cy="119.4" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2024: 91.1</title></circle>
+<circle cx="650.0" cy="123.1" r="7" fill="transparent" stroke="none"><title>Real rail rate, 2025: 90.5</title></circle>
+<circle cx="650.0" cy="123.1" r="4" fill="var(--s1)" class="dot"/></svg>
+<figcaption>Source: FRED series PCU482111482111 and CPIAUCSL, annual averages.</figcaption>
+</figure>
+<figure>
+<h4>Since 2004, rail prices have doubled while airfares barely moved</h4>
+<p class="sub">Price indexes, 2004 = 100. Consumer prices shown dashed for reference.</p>
+<p class="legend"><span><i style="background:var(--s1)"></i>Rail freight</span><span><i style="background:var(--s2)"></i>Long-distance trucking</span><span><i style="background:var(--s3)"></i>Airline fares</span><span><i style="background:var(--muted)"></i>Consumer prices (CPI)</span></p>
+<svg viewBox="0 0 720 320" role="img" aria-label="Price indexes for rail, trucking, airfares and consumer prices, 2004 equals 100" class="chart"><line x1="40" y1="290.0" x2="590" y2="290.0" class="grid"/><text x="34" y="294.0" class="tick" text-anchor="end">80</text>
+<line x1="40" y1="250.9" x2="590" y2="250.9" class="grid"/><text x="34" y="254.9" class="tick" text-anchor="end">100</text>
+<line x1="40" y1="211.7" x2="590" y2="211.7" class="grid"/><text x="34" y="215.7" class="tick" text-anchor="end">120</text>
+<line x1="40" y1="172.6" x2="590" y2="172.6" class="grid"/><text x="34" y="176.6" class="tick" text-anchor="end">140</text>
+<line x1="40" y1="133.4" x2="590" y2="133.4" class="grid"/><text x="34" y="137.4" class="tick" text-anchor="end">160</text>
+<line x1="40" y1="94.3" x2="590" y2="94.3" class="grid"/><text x="34" y="98.3" class="tick" text-anchor="end">180</text>
+<line x1="40" y1="55.1" x2="590" y2="55.1" class="grid"/><text x="34" y="59.1" class="tick" text-anchor="end">200</text>
+<line x1="40" y1="16.0" x2="590" y2="16.0" class="grid"/><text x="34" y="20.0" class="tick" text-anchor="end">220</text>
+<text x="40.0" y="308" class="tick" text-anchor="middle">2004</text>
+<text x="144.8" y="308" class="tick" text-anchor="middle">2008</text>
+<text x="249.5" y="308" class="tick" text-anchor="middle">2012</text>
+<text x="354.3" y="308" class="tick" text-anchor="middle">2016</text>
+<text x="459.0" y="308" class="tick" text-anchor="middle">2020</text>
+<text x="563.8" y="308" class="tick" text-anchor="middle">2024</text>
+<line x1="40" y1="290" x2="590" y2="290" class="axis"/>
+
+<polyline points="40.0,250.9 66.2,244.3 92.4,237.8 118.6,231.8 144.8,223.6 171.0,224.3 197.1,220.6 223.3,213.5 249.5,208.7 275.7,205.2 301.9,201.3 328.1,201.0 354.3,197.9 380.5,192.6 406.7,186.4 432.9,181.7 459.0,178.4 485.2,165.8 511.4,143.4 537.6,130.9 563.8,121.6 590.0,113.0" fill="none" stroke="var(--muted)" class="ln ref"/>
+<circle cx="40.0" cy="250.9" r="7" fill="transparent" stroke="none"><title>CPI, 2004: 100.0</title></circle>
+<circle cx="66.2" cy="244.3" r="7" fill="transparent" stroke="none"><title>CPI, 2005: 103.4</title></circle>
+<circle cx="92.4" cy="237.8" r="7" fill="transparent" stroke="none"><title>CPI, 2006: 106.7</title></circle>
+<circle cx="118.6" cy="231.8" r="7" fill="transparent" stroke="none"><title>CPI, 2007: 109.8</title></circle>
+<circle cx="144.8" cy="223.6" r="7" fill="transparent" stroke="none"><title>CPI, 2008: 113.9</title></circle>
+<circle cx="171.0" cy="224.3" r="7" fill="transparent" stroke="none"><title>CPI, 2009: 113.6</title></circle>
+<circle cx="197.1" cy="220.6" r="7" fill="transparent" stroke="none"><title>CPI, 2010: 115.4</title></circle>
+<circle cx="223.3" cy="213.5" r="7" fill="transparent" stroke="none"><title>CPI, 2011: 119.1</title></circle>
+<circle cx="249.5" cy="208.7" r="7" fill="transparent" stroke="none"><title>CPI, 2012: 121.5</title></circle>
+<circle cx="275.7" cy="205.2" r="7" fill="transparent" stroke="none"><title>CPI, 2013: 123.3</title></circle>
+<circle cx="301.9" cy="201.3" r="7" fill="transparent" stroke="none"><title>CPI, 2014: 125.3</title></circle>
+<circle cx="328.1" cy="201.0" r="7" fill="transparent" stroke="none"><title>CPI, 2015: 125.5</title></circle>
+<circle cx="354.3" cy="197.9" r="7" fill="transparent" stroke="none"><title>CPI, 2016: 127.0</title></circle>
+<circle cx="380.5" cy="192.6" r="7" fill="transparent" stroke="none"><title>CPI, 2017: 129.8</title></circle>
+<circle cx="406.7" cy="186.4" r="7" fill="transparent" stroke="none"><title>CPI, 2018: 132.9</title></circle>
+<circle cx="432.9" cy="181.7" r="7" fill="transparent" stroke="none"><title>CPI, 2019: 135.3</title></circle>
+<circle cx="459.0" cy="178.4" r="7" fill="transparent" stroke="none"><title>CPI, 2020: 137.0</title></circle>
+<circle cx="485.2" cy="165.8" r="7" fill="transparent" stroke="none"><title>CPI, 2021: 143.4</title></circle>
+<circle cx="511.4" cy="143.4" r="7" fill="transparent" stroke="none"><title>CPI, 2022: 154.9</title></circle>
+<circle cx="537.6" cy="130.9" r="7" fill="transparent" stroke="none"><title>CPI, 2023: 161.3</title></circle>
+<circle cx="563.8" cy="121.6" r="7" fill="transparent" stroke="none"><title>CPI, 2024: 166.1</title></circle>
+<circle cx="590.0" cy="113.0" r="7" fill="transparent" stroke="none"><title>CPI, 2025: 170.4</title></circle>
+<circle cx="590.0" cy="113.0" r="4" fill="var(--muted)" class="dot"/>
+<text x="599.0" y="129.0" class="lab">CPI <tspan class="val">170</tspan></text>
+<polyline points="40.0,250.9 66.2,230.5 92.4,212.0 118.6,203.3 144.8,175.1 171.0,190.3 197.1,176.9 223.3,153.5 249.5,140.3 275.7,130.5 301.9,124.6 328.1,136.8 354.3,143.7 380.5,132.7 406.7,115.0 432.9,105.0 459.0,105.0 485.2,88.4 511.4,54.9 537.6,46.7 563.8,38.8 590.0,31.1" fill="none" stroke="var(--s1)" class="ln"/>
+<circle cx="40.0" cy="250.9" r="7" fill="transparent" stroke="none"><title>Rail, 2004: 100.0</title></circle>
+<circle cx="66.2" cy="230.5" r="7" fill="transparent" stroke="none"><title>Rail, 2005: 110.4</title></circle>
+<circle cx="92.4" cy="212.0" r="7" fill="transparent" stroke="none"><title>Rail, 2006: 119.8</title></circle>
+<circle cx="118.6" cy="203.3" r="7" fill="transparent" stroke="none"><title>Rail, 2007: 124.3</title></circle>
+<circle cx="144.8" cy="175.1" r="7" fill="transparent" stroke="none"><title>Rail, 2008: 138.7</title></circle>
+<circle cx="171.0" cy="190.3" r="7" fill="transparent" stroke="none"><title>Rail, 2009: 131.0</title></circle>
+<circle cx="197.1" cy="176.9" r="7" fill="transparent" stroke="none"><title>Rail, 2010: 137.8</title></circle>
+<circle cx="223.3" cy="153.5" r="7" fill="transparent" stroke="none"><title>Rail, 2011: 149.8</title></circle>
+<circle cx="249.5" cy="140.3" r="7" fill="transparent" stroke="none"><title>Rail, 2012: 156.5</title></circle>
+<circle cx="275.7" cy="130.5" r="7" fill="transparent" stroke="none"><title>Rail, 2013: 161.5</title></circle>
+<circle cx="301.9" cy="124.6" r="7" fill="transparent" stroke="none"><title>Rail, 2014: 164.5</title></circle>
+<circle cx="328.1" cy="136.8" r="7" fill="transparent" stroke="none"><title>Rail, 2015: 158.3</title></circle>
+<circle cx="354.3" cy="143.7" r="7" fill="transparent" stroke="none"><title>Rail, 2016: 154.7</title></circle>
+<circle cx="380.5" cy="132.7" r="7" fill="transparent" stroke="none"><title>Rail, 2017: 160.4</title></circle>
+<circle cx="406.7" cy="115.0" r="7" fill="transparent" stroke="none"><title>Rail, 2018: 169.4</title></circle>
+<circle cx="432.9" cy="105.0" r="7" fill="transparent" stroke="none"><title>Rail, 2019: 174.5</title></circle>
+<circle cx="459.0" cy="105.0" r="7" fill="transparent" stroke="none"><title>Rail, 2020: 174.5</title></circle>
+<circle cx="485.2" cy="88.4" r="7" fill="transparent" stroke="none"><title>Rail, 2021: 183.0</title></circle>
+<circle cx="511.4" cy="54.9" r="7" fill="transparent" stroke="none"><title>Rail, 2022: 200.1</title></circle>
+<circle cx="537.6" cy="46.7" r="7" fill="transparent" stroke="none"><title>Rail, 2023: 204.3</title></circle>
+<circle cx="563.8" cy="38.8" r="7" fill="transparent" stroke="none"><title>Rail, 2024: 208.4</title></circle>
+<circle cx="590.0" cy="31.1" r="7" fill="transparent" stroke="none"><title>Rail, 2025: 212.3</title></circle>
+<circle cx="590.0" cy="31.1" r="4" fill="var(--s1)" class="dot"/>
+<text x="599.0" y="35.1" class="lab">Rail <tspan class="val">212</tspan></text>
+<polyline points="40.0,250.9 66.2,239.6 92.4,233.3 118.6,230.4 144.8,219.0 171.0,235.0 197.1,230.7 223.3,216.4 249.5,206.1 275.7,203.8 301.9,199.7 328.1,206.3 354.3,211.3 380.5,207.2 406.7,187.9 432.9,183.8 459.0,185.7 485.2,133.7 511.4,59.7 537.6,91.9 563.8,112.6 590.0,104.8" fill="none" stroke="var(--s2)" class="ln"/>
+<circle cx="40.0" cy="250.9" r="7" fill="transparent" stroke="none"><title>Trucking, 2004: 100.0</title></circle>
+<circle cx="66.2" cy="239.6" r="7" fill="transparent" stroke="none"><title>Trucking, 2005: 105.8</title></circle>
+<circle cx="92.4" cy="233.3" r="7" fill="transparent" stroke="none"><title>Trucking, 2006: 108.9</title></circle>
+<circle cx="118.6" cy="230.4" r="7" fill="transparent" stroke="none"><title>Trucking, 2007: 110.4</title></circle>
+<circle cx="144.8" cy="219.0" r="7" fill="transparent" stroke="none"><title>Trucking, 2008: 116.3</title></circle>
+<circle cx="171.0" cy="235.0" r="7" fill="transparent" stroke="none"><title>Trucking, 2009: 108.1</title></circle>
+<circle cx="197.1" cy="230.7" r="7" fill="transparent" stroke="none"><title>Trucking, 2010: 110.3</title></circle>
+<circle cx="223.3" cy="216.4" r="7" fill="transparent" stroke="none"><title>Trucking, 2011: 117.6</title></circle>
+<circle cx="249.5" cy="206.1" r="7" fill="transparent" stroke="none"><title>Trucking, 2012: 122.9</title></circle>
+<circle cx="275.7" cy="203.8" r="7" fill="transparent" stroke="none"><title>Trucking, 2013: 124.0</title></circle>
+<circle cx="301.9" cy="199.7" r="7" fill="transparent" stroke="none"><title>Trucking, 2014: 126.1</title></circle>
+<circle cx="328.1" cy="206.3" r="7" fill="transparent" stroke="none"><title>Trucking, 2015: 122.7</title></circle>
+<circle cx="354.3" cy="211.3" r="7" fill="transparent" stroke="none"><title>Trucking, 2016: 120.2</title></circle>
+<circle cx="380.5" cy="207.2" r="7" fill="transparent" stroke="none"><title>Trucking, 2017: 122.3</title></circle>
+<circle cx="406.7" cy="187.9" r="7" fill="transparent" stroke="none"><title>Trucking, 2018: 132.2</title></circle>
+<circle cx="432.9" cy="183.8" r="7" fill="transparent" stroke="none"><title>Trucking, 2019: 134.3</title></circle>
+<circle cx="459.0" cy="185.7" r="7" fill="transparent" stroke="none"><title>Trucking, 2020: 133.3</title></circle>
+<circle cx="485.2" cy="133.7" r="7" fill="transparent" stroke="none"><title>Trucking, 2021: 159.9</title></circle>
+<circle cx="511.4" cy="59.7" r="7" fill="transparent" stroke="none"><title>Trucking, 2022: 197.7</title></circle>
+<circle cx="537.6" cy="91.9" r="7" fill="transparent" stroke="none"><title>Trucking, 2023: 181.2</title></circle>
+<circle cx="563.8" cy="112.6" r="7" fill="transparent" stroke="none"><title>Trucking, 2024: 170.7</title></circle>
+<circle cx="590.0" cy="104.8" r="7" fill="transparent" stroke="none"><title>Trucking, 2025: 174.6</title></circle>
+<circle cx="590.0" cy="104.8" r="4" fill="var(--s2)" class="dot"/>
+<text x="599.0" y="102.8" class="lab">Trucking <tspan class="val">175</tspan></text>
+<polyline points="40.0,250.9 66.2,242.9 92.4,233.7 118.6,229.7 144.8,203.9 171.0,224.2 197.1,206.9 223.3,184.6 249.5,183.6 275.7,176.9 301.9,181.6 328.1,194.9 354.3,203.3 380.5,209.3 406.7,218.7 432.9,217.9 459.0,258.6 485.2,259.4 511.4,203.2 537.6,216.5 563.8,221.2 590.0,225.7" fill="none" stroke="var(--s3)" class="ln"/>
+<circle cx="40.0" cy="250.9" r="7" fill="transparent" stroke="none"><title>Airfares, 2004: 100.0</title></circle>
+<circle cx="66.2" cy="242.9" r="7" fill="transparent" stroke="none"><title>Airfares, 2005: 104.1</title></circle>
+<circle cx="92.4" cy="233.7" r="7" fill="transparent" stroke="none"><title>Airfares, 2006: 108.8</title></circle>
+<circle cx="118.6" cy="229.7" r="7" fill="transparent" stroke="none"><title>Airfares, 2007: 110.8</title></circle>
+<circle cx="144.8" cy="203.9" r="7" fill="transparent" stroke="none"><title>Airfares, 2008: 124.0</title></circle>
+<circle cx="171.0" cy="224.2" r="7" fill="transparent" stroke="none"><title>Airfares, 2009: 113.6</title></circle>
+<circle cx="197.1" cy="206.9" r="7" fill="transparent" stroke="none"><title>Airfares, 2010: 122.5</title></circle>
+<circle cx="223.3" cy="184.6" r="7" fill="transparent" stroke="none"><title>Airfares, 2011: 133.8</title></circle>
+<circle cx="249.5" cy="183.6" r="7" fill="transparent" stroke="none"><title>Airfares, 2012: 134.4</title></circle>
+<circle cx="275.7" cy="176.9" r="7" fill="transparent" stroke="none"><title>Airfares, 2013: 137.8</title></circle>
+<circle cx="301.9" cy="181.6" r="7" fill="transparent" stroke="none"><title>Airfares, 2014: 135.4</title></circle>
+<circle cx="328.1" cy="194.9" r="7" fill="transparent" stroke="none"><title>Airfares, 2015: 128.6</title></circle>
+<circle cx="354.3" cy="203.3" r="7" fill="transparent" stroke="none"><title>Airfares, 2016: 124.3</title></circle>
+<circle cx="380.5" cy="209.3" r="7" fill="transparent" stroke="none"><title>Airfares, 2017: 121.3</title></circle>
+<circle cx="406.7" cy="218.7" r="7" fill="transparent" stroke="none"><title>Airfares, 2018: 116.4</title></circle>
+<circle cx="432.9" cy="217.9" r="7" fill="transparent" stroke="none"><title>Airfares, 2019: 116.8</title></circle>
+<circle cx="459.0" cy="258.6" r="7" fill="transparent" stroke="none"><title>Airfares, 2020: 96.0</title></circle>
+<circle cx="485.2" cy="259.4" r="7" fill="transparent" stroke="none"><title>Airfares, 2021: 95.6</title></circle>
+<circle cx="511.4" cy="203.2" r="7" fill="transparent" stroke="none"><title>Airfares, 2022: 124.3</title></circle>
+<circle cx="537.6" cy="216.5" r="7" fill="transparent" stroke="none"><title>Airfares, 2023: 117.5</title></circle>
+<circle cx="563.8" cy="221.2" r="7" fill="transparent" stroke="none"><title>Airfares, 2024: 115.1</title></circle>
+<circle cx="590.0" cy="225.7" r="7" fill="transparent" stroke="none"><title>Airfares, 2025: 112.9</title></circle>
+<circle cx="590.0" cy="225.7" r="4" fill="var(--s3)" class="dot"/>
+<text x="599.0" y="229.7" class="lab">Airfares <tspan class="val">113</tspan></text></svg>
+<figcaption>Source: FRED series PCU482111482111, PCU484121484121, CUSR0000SETG01, CPIAUCSL, annual averages.</figcaption>
+</figure>
+<details><summary>Company-level table</summary>
+<div class="tw"><table><thead><tr><th>Company</th><th>Mode</th><th class="n">Years</th><th class="n">Op. margin %</th><th class="n">Return on assets %</th><th class="n">PP&amp;E per $1 revenue</th><th class="n">Margin SD</th></tr></thead><tbody><tr><td>Alaska Air</td><td>Air</td><td class="n">17</td><td class="n">7.6</td><td class="n">7.1</td><td class="n">0.89</td><td class="n">16.1</td></tr><tr><td>American</td><td>Air</td><td class="n">17</td><td class="n">0.6</td><td class="n">2.5</td><td class="n">0.75</td><td class="n">16.6</td></tr><tr><td>Delta</td><td>Air</td><td class="n">17</td><td class="n">4.6</td><td class="n">5.6</td><td class="n">0.69</td><td class="n">20.6</td></tr><tr><td>JetBlue</td><td>Air</td><td class="n">17</td><td class="n">2.2</td><td class="n">3.2</td><td class="n">1.23</td><td class="n">17.3</td></tr><tr><td>Southwest</td><td>Air</td><td class="n">17</td><td class="n">5.7</td><td class="n">6.2</td><td class="n">0.86</td><td class="n">13.8</td></tr><tr><td>United</td><td>Air</td><td class="n">17</td><td class="n">3.2</td><td class="n">4.3</td><td class="n">0.76</td><td class="n">12.4</td></tr><tr><td>BNSF</td><td>Rail</td><td class="n">16</td><td class="n">32.2</td><td class="n">8.7</td><td class="n">2.75</td><td class="n">3.7</td></tr><tr><td>CSX</td><td>Rail</td><td class="n">17</td><td class="n">33.9</td><td class="n">11.5</td><td class="n">2.50</td><td class="n">5.8</td></tr><tr><td>Kansas City Southern</td><td>Rail</td><td class="n">14</td><td class="n">31.7</td><td class="n">9.5</td><td class="n">3.21</td><td class="n">5.1</td></tr><tr><td>Norfolk Southern</td><td>Rail</td><td class="n">17</td><td class="n">31.3</td><td class="n">9.7</td><td class="n">2.70</td><td class="n">4.5</td></tr><tr><td>Union Pacific</td><td>Rail</td><td class="n">17</td><td class="n">36.1</td><td class="n">13.7</td><td class="n">2.33</td><td class="n">4.9</td></tr><tr><td>ArcBest</td><td>Truck</td><td class="n">17</td><td class="n">1.8</td><td class="n">3.6</td><td class="n">0.21</td><td class="n">4.4</td></tr><tr><td>Heartland Express</td><td>Truck</td><td class="n">17</td><td class="n">13.2</td><td class="n">11.3</td><td class="n">0.69</td><td class="n">7.8</td></tr><tr><td>J.B. Hunt</td><td>Truck</td><td class="n">17</td><td class="n">8.9</td><td class="n">15.7</td><td class="n">0.41</td><td class="n">1.4</td></tr><tr><td>Knight-Swift</td><td>Truck</td><td class="n">9</td><td class="n">9.1</td><td class="n">5.2</td><td class="n">0.64</td><td class="n">4.8</td></tr><tr><td>Marten</td><td>Truck</td><td class="n">17</td><td class="n">7.9</td><td class="n">9.0</td><td class="n">0.73</td><td class="n">2.4</td></tr><tr><td>Old Dominion</td><td>Truck</td><td class="n">17</td><td class="n">18.8</td><td class="n">21.0</td><td class="n">0.69</td><td class="n">6.8</td></tr><tr><td>Saia</td><td>Truck</td><td class="n">17</td><td class="n">8.4</td><td class="n">12.2</td><td class="n">0.52</td><td class="n">5.0</td></tr><tr><td>Schneider</td><td>Truck</td><td class="n">11</td><td class="n">6.2</td><td class="n">8.3</td><td class="n">0.42</td><td class="n">2.1</td></tr><tr><td>Werner</td><td>Truck</td><td class="n">17</td><td class="n">7.3</td><td class="n">9.2</td><td class="n">0.57</td><td class="n">2.8</td></tr></tbody></table></div>
+<p class="note">Knight-Swift is included from 2017 (the merger year), Schneider from 2015 and Kansas City Southern through 2022, when it was acquired. BNSF has no usable 2010 figure because of its acquisition by Berkshire Hathaway that year.</p>
+</details>
+</section>
+
+<section>
+<h2>Going back: 1830 to 1961</h2>
+<p class="col note">These series come from the NBER Macrohistory Database, hosted on FRED. They cover Hadley's own period and the regulated decades that followed. This is as far back as public data reaches: construction from 1830, share prices from 1855, freight rates from 1865, industry accounts from 1907.</p>
+<figure>
+<h4>Railroad building came in three surges, each followed by a crisis Hadley names</h4>
+<p class="sub">Miles of railroad built per year, United States. Shaded bands mark the crises Hadley names: 1857&ndash;59, 1873&ndash;77 and 1884&ndash;85.</p>
+<svg viewBox="0 0 720 300" role="img" aria-label="Miles of railroad built per year in the United States, 1830 to 1952" class="chart">
+<rect x="192.0" y="16" width="16.0" height="254" class="band"/>
+<rect x="277.3" y="16" width="26.7" height="254" class="band"/>
+<rect x="336.0" y="16" width="10.7" height="254" class="band"/>
+<line x1="48" y1="270.0" x2="704" y2="270.0" class="grid"/><text x="42" y="274.0" class="tick" text-anchor="end">0</text>
+<line x1="48" y1="197.4" x2="704" y2="197.4" class="grid"/><text x="42" y="201.4" class="tick" text-anchor="end">4,000</text>
+<line x1="48" y1="124.9" x2="704" y2="124.9" class="grid"/><text x="42" y="128.9" class="tick" text-anchor="end">8,000</text>
+<line x1="48" y1="52.3" x2="704" y2="52.3" class="grid"/><text x="42" y="56.3" class="tick" text-anchor="end">12,000</text>
+<text x="103.5" y="288" class="tick" text-anchor="middle">1840</text>
+<text x="156.8" y="288" class="tick" text-anchor="middle">1850</text>
+<text x="210.2" y="288" class="tick" text-anchor="middle">1860</text>
+<text x="263.5" y="288" class="tick" text-anchor="middle">1870</text>
+<text x="316.8" y="288" class="tick" text-anchor="middle">1880</text>
+<text x="370.2" y="288" class="tick" text-anchor="middle">1890</text>
+<text x="423.5" y="288" class="tick" text-anchor="middle">1900</text>
+<text x="476.8" y="288" class="tick" text-anchor="middle">1910</text>
+<text x="530.2" y="288" class="tick" text-anchor="middle">1920</text>
+<text x="583.5" y="288" class="tick" text-anchor="middle">1930</text>
+<text x="636.8" y="288" class="tick" text-anchor="middle">1940</text>
+<text x="690.2" y="288" class="tick" text-anchor="middle">1950</text>
+<rect x="48.0" y="269.3" width="4.3" height="0.7" fill="var(--s1)"><title>1830: 40 miles</title></rect>
+<rect x="53.3" y="268.2" width="4.3" height="1.8" fill="var(--s1)"><title>1831: 99 miles</title></rect>
+<rect x="58.7" y="266.5" width="4.3" height="3.5" fill="var(--s1)"><title>1832: 191 miles</title></rect>
+<rect x="64.0" y="267.9" width="4.3" height="2.1" fill="var(--s1)"><title>1833: 116 miles</title></rect>
+<rect x="69.3" y="266.1" width="4.3" height="3.9" fill="var(--s1)"><title>1834: 214 miles</title></rect>
+<rect x="74.7" y="267.5" width="4.3" height="2.5" fill="var(--s1)"><title>1835: 138 miles</title></rect>
+<rect x="80.0" y="264.9" width="4.3" height="5.1" fill="var(--s1)"><title>1836: 280 miles</title></rect>
+<rect x="85.3" y="263.7" width="4.3" height="6.3" fill="var(--s1)"><title>1837: 348 miles</title></rect>
+<rect x="90.7" y="261.8" width="4.3" height="8.2" fill="var(--s1)"><title>1838: 453 miles</title></rect>
+<rect x="96.0" y="263.0" width="4.3" height="7.0" fill="var(--s1)"><title>1839: 386 miles</title></rect>
+<rect x="101.3" y="261.1" width="4.3" height="8.9" fill="var(--s1)"><title>1840: 491 miles</title></rect>
+<rect x="106.7" y="259.0" width="4.3" height="11.0" fill="var(--s1)"><title>1841: 606 miles</title></rect>
+<rect x="112.0" y="260.8" width="4.3" height="9.2" fill="var(--s1)"><title>1842: 505 miles</title></rect>
+<rect x="117.3" y="264.8" width="4.3" height="5.2" fill="var(--s1)"><title>1843: 288 miles</title></rect>
+<rect x="122.7" y="266.7" width="4.3" height="3.3" fill="var(--s1)"><title>1844: 180 miles</title></rect>
+<rect x="128.0" y="265.0" width="4.3" height="5.0" fill="var(--s1)"><title>1845: 277 miles</title></rect>
+<rect x="133.3" y="264.0" width="4.3" height="6.0" fill="var(--s1)"><title>1846: 333 miles</title></rect>
+<rect x="138.7" y="265.2" width="4.3" height="4.8" fill="var(--s1)"><title>1847: 263 miles</title></rect>
+<rect x="144.0" y="250.8" width="4.3" height="19.2" fill="var(--s1)"><title>1848: 1,056 miles</title></rect>
+<rect x="149.3" y="251.0" width="4.3" height="19.0" fill="var(--s1)"><title>1849: 1,048 miles</title></rect>
+<rect x="154.7" y="247.1" width="4.3" height="22.9" fill="var(--s1)"><title>1850: 1,261 miles</title></rect>
+<rect x="160.0" y="246.9" width="4.3" height="23.1" fill="var(--s1)"><title>1851: 1,274 miles</title></rect>
+<rect x="165.3" y="228.5" width="4.3" height="41.5" fill="var(--s1)"><title>1852: 2,288 miles</title></rect>
+<rect x="170.7" y="230.6" width="4.3" height="39.4" fill="var(--s1)"><title>1853: 2,170 miles</title></rect>
+<rect x="176.0" y="207.6" width="4.3" height="62.4" fill="var(--s1)"><title>1854: 3,442 miles</title></rect>
+<rect x="181.3" y="225.5" width="4.3" height="44.5" fill="var(--s1)"><title>1855: 2,453 miles</title></rect>
+<rect x="186.7" y="243.3" width="4.3" height="26.7" fill="var(--s1)"><title>1856: 1,471 miles</title></rect>
+<rect x="192.0" y="232.3" width="4.3" height="37.7" fill="var(--s1)"><title>1857: 2,077 miles</title></rect>
+<rect x="197.3" y="234.3" width="4.3" height="35.7" fill="var(--s1)"><title>1858: 1,966 miles</title></rect>
+<rect x="202.7" y="239.0" width="4.3" height="31.0" fill="var(--s1)"><title>1859: 1,707 miles</title></rect>
+<rect x="208.0" y="242.8" width="4.3" height="27.2" fill="var(--s1)"><title>1860: 1,500 miles</title></rect>
+<rect x="213.3" y="251.6" width="4.3" height="18.4" fill="var(--s1)"><title>1861: 1,016 miles</title></rect>
+<rect x="218.7" y="256.9" width="4.3" height="13.1" fill="var(--s1)"><title>1862: 720 miles</title></rect>
+<rect x="224.0" y="259.6" width="4.3" height="10.4" fill="var(--s1)"><title>1863: 574 miles</title></rect>
+<rect x="229.3" y="252.8" width="4.3" height="17.2" fill="var(--s1)"><title>1864: 947 miles</title></rect>
+<rect x="234.7" y="255.1" width="4.3" height="14.9" fill="var(--s1)"><title>1865: 819 miles</title></rect>
+<rect x="240.0" y="244.5" width="4.3" height="25.5" fill="var(--s1)"><title>1866: 1,404 miles</title></rect>
+<rect x="245.3" y="223.9" width="4.3" height="46.1" fill="var(--s1)"><title>1867: 2,541 miles</title></rect>
+<rect x="250.7" y="225.2" width="4.3" height="44.8" fill="var(--s1)"><title>1868: 2,468 miles</title></rect>
+<rect x="256.0" y="195.6" width="4.3" height="74.4" fill="var(--s1)"><title>1869: 4,103 miles</title></rect>
+<rect x="261.3" y="167.3" width="4.3" height="102.7" fill="var(--s1)"><title>1870: 5,658 miles</title></rect>
+<rect x="266.7" y="149.2" width="4.3" height="120.8" fill="var(--s1)"><title>1871: 6,660 miles</title></rect>
+<rect x="272.0" y="135.0" width="4.3" height="135.0" fill="var(--s1)"><title>1872: 7,439 miles</title></rect>
+<rect x="277.3" y="175.3" width="4.3" height="94.7" fill="var(--s1)"><title>1873: 5,217 miles</title></rect>
+<rect x="282.7" y="223.1" width="4.3" height="46.9" fill="var(--s1)"><title>1874: 2,584 miles</title></rect>
+<rect x="288.0" y="240.9" width="4.3" height="29.1" fill="var(--s1)"><title>1875: 1,606 miles</title></rect>
+<rect x="293.3" y="223.3" width="4.3" height="46.7" fill="var(--s1)"><title>1876: 2,575 miles</title></rect>
+<rect x="298.7" y="228.6" width="4.3" height="41.4" fill="var(--s1)"><title>1877: 2,280 miles</title></rect>
+<rect x="304.0" y="225.9" width="4.3" height="44.1" fill="var(--s1)"><title>1878: 2,428 miles</title></rect>
+<rect x="309.3" y="179.2" width="4.3" height="90.8" fill="var(--s1)"><title>1879: 5,006 miles</title></rect>
+<rect x="314.7" y="145.2" width="4.3" height="124.8" fill="var(--s1)"><title>1880: 6,876 miles</title></rect>
+<rect x="320.0" y="92.4" width="4.3" height="177.6" fill="var(--s1)"><title>1881: 9,789 miles</title></rect>
+<rect x="325.3" y="59.6" width="4.3" height="210.4" fill="var(--s1)"><title>1882: 11,599 miles</title></rect>
+<rect x="330.7" y="146.3" width="4.3" height="123.7" fill="var(--s1)"><title>1883: 6,819 miles</title></rect>
+<rect x="336.0" y="197.9" width="4.3" height="72.1" fill="var(--s1)"><title>1884: 3,974 miles</title></rect>
+<rect x="341.3" y="213.2" width="4.3" height="56.8" fill="var(--s1)"><title>1885: 3,131 miles</title></rect>
+<rect x="346.7" y="117.6" width="4.3" height="152.4" fill="var(--s1)"><title>1886: 8,400 miles</title></rect>
+<rect x="352.0" y="32.7" width="4.3" height="237.3" fill="var(--s1)"><title>1887: 13,081 miles</title></rect>
+<rect x="357.3" y="141.8" width="4.3" height="128.2" fill="var(--s1)"><title>1888: 7,066 miles</title></rect>
+<rect x="362.7" y="166.5" width="4.3" height="103.5" fill="var(--s1)"><title>1889: 5,707 miles</title></rect>
+<rect x="368.0" y="165.9" width="4.3" height="104.1" fill="var(--s1)"><title>1890: 5,739 miles</title></rect>
+<rect x="373.3" y="186.2" width="4.3" height="83.8" fill="var(--s1)"><title>1891: 4,620 miles</title></rect>
+<rect x="378.7" y="185.7" width="4.3" height="84.3" fill="var(--s1)"><title>1892: 4,648 miles</title></rect>
+<rect x="384.0" y="215.1" width="4.3" height="54.9" fill="var(--s1)"><title>1893: 3,024 miles</title></rect>
+<rect x="389.3" y="238.1" width="4.3" height="31.9" fill="var(--s1)"><title>1894: 1,760 miles</title></rect>
+<rect x="394.7" y="244.2" width="4.3" height="25.8" fill="var(--s1)"><title>1895: 1,420 miles</title></rect>
+<rect x="400.0" y="239.3" width="4.3" height="30.7" fill="var(--s1)"><title>1896: 1,692 miles</title></rect>
+<rect x="405.3" y="231.7" width="4.3" height="38.3" fill="var(--s1)"><title>1897: 2,109 miles</title></rect>
+<rect x="410.7" y="210.8" width="4.3" height="59.2" fill="var(--s1)"><title>1898: 3,265 miles</title></rect>
+<rect x="416.0" y="187.1" width="4.3" height="82.9" fill="var(--s1)"><title>1899: 4,569 miles</title></rect>
+<rect x="421.3" y="181.2" width="4.3" height="88.8" fill="var(--s1)"><title>1900: 4,894 miles</title></rect>
+<rect x="426.7" y="172.6" width="4.3" height="97.4" fill="var(--s1)"><title>1901: 5,368 miles</title></rect>
+<rect x="432.0" y="160.7" width="4.3" height="109.3" fill="var(--s1)"><title>1902: 6,026 miles</title></rect>
+<rect x="437.3" y="167.5" width="4.3" height="102.5" fill="var(--s1)"><title>1903: 5,652 miles</title></rect>
+<rect x="442.7" y="200.5" width="4.3" height="69.5" fill="var(--s1)"><title>1904: 3,832 miles</title></rect>
+<rect x="448.0" y="190.4" width="4.3" height="79.6" fill="var(--s1)"><title>1905: 4,388 miles</title></rect>
+<rect x="453.3" y="168.0" width="4.3" height="102.0" fill="var(--s1)"><title>1906: 5,623 miles</title></rect>
+<rect x="458.7" y="175.4" width="4.3" height="94.6" fill="var(--s1)"><title>1907: 5,212 miles</title></rect>
+<rect x="464.0" y="211.7" width="4.3" height="58.3" fill="var(--s1)"><title>1908: 3,214 miles</title></rect>
+<rect x="469.3" y="202.0" width="4.3" height="68.0" fill="var(--s1)"><title>1909: 3,748 miles</title></rect>
+<rect x="474.7" y="195.2" width="4.3" height="74.8" fill="var(--s1)"><title>1910: 4,122 miles</title></rect>
+<rect x="480.0" y="214.4" width="4.3" height="55.6" fill="var(--s1)"><title>1911: 3,066 miles</title></rect>
+<rect x="485.3" y="215.6" width="4.3" height="54.4" fill="var(--s1)"><title>1912: 2,997 miles</title></rect>
+<rect x="490.7" y="214.3" width="4.3" height="55.7" fill="var(--s1)"><title>1913: 3,071 miles</title></rect>
+<rect x="496.0" y="242.2" width="4.3" height="27.8" fill="var(--s1)"><title>1914: 1,532 miles</title></rect>
+<rect x="501.3" y="253.1" width="4.3" height="16.9" fill="var(--s1)"><title>1915: 933 miles</title></rect>
+<rect x="506.7" y="250.1" width="4.3" height="19.9" fill="var(--s1)"><title>1916: 1,098 miles</title></rect>
+<rect x="512.0" y="252.2" width="4.3" height="17.8" fill="var(--s1)"><title>1917: 979 miles</title></rect>
+<rect x="517.3" y="256.9" width="4.3" height="13.1" fill="var(--s1)"><title>1918: 721 miles</title></rect>
+<rect x="522.7" y="257.6" width="4.3" height="12.4" fill="var(--s1)"><title>1919: 686 miles</title></rect>
+<rect x="528.0" y="264.3" width="4.3" height="5.7" fill="var(--s1)"><title>1920: 314 miles</title></rect>
+<rect x="533.3" y="261.4" width="4.3" height="8.6" fill="var(--s1)"><title>1921: 475 miles</title></rect>
+<rect x="538.7" y="264.1" width="4.3" height="5.9" fill="var(--s1)"><title>1922: 324 miles</title></rect>
+<rect x="544.0" y="262.3" width="4.3" height="7.7" fill="var(--s1)"><title>1923: 427 miles</title></rect>
+<rect x="549.3" y="259.5" width="4.3" height="10.5" fill="var(--s1)"><title>1924: 579 miles</title></rect>
+<rect x="554.7" y="258.3" width="4.3" height="11.7" fill="var(--s1)"><title>1925: 644 miles</title></rect>
+<rect x="560.0" y="251.8" width="4.3" height="18.2" fill="var(--s1)"><title>1926: 1,005 miles</title></rect>
+<rect x="565.3" y="255.9" width="4.3" height="14.1" fill="var(--s1)"><title>1927: 779 miles</title></rect>
+<rect x="570.7" y="251.4" width="4.3" height="18.6" fill="var(--s1)"><title>1928: 1,025 miles</title></rect>
+<rect x="576.0" y="257.9" width="4.3" height="12.1" fill="var(--s1)"><title>1929: 666 miles</title></rect>
+<rect x="581.3" y="260.7" width="4.3" height="9.3" fill="var(--s1)"><title>1930: 513 miles</title></rect>
+<rect x="586.7" y="256.4" width="4.3" height="13.6" fill="var(--s1)"><title>1931: 748 miles</title></rect>
+<rect x="592.0" y="267.0" width="4.3" height="3.0" fill="var(--s1)"><title>1932: 163 miles</title></rect>
+<rect x="597.3" y="269.6" width="4.3" height="0.5" fill="var(--s1)"><title>1933: 24 miles</title></rect>
+<rect x="602.7" y="268.6" width="4.3" height="1.4" fill="var(--s1)"><title>1934: 76 miles</title></rect>
+<rect x="608.0" y="269.2" width="4.3" height="0.8" fill="var(--s1)"><title>1935: 45 miles</title></rect>
+<rect x="613.3" y="268.3" width="4.3" height="1.7" fill="var(--s1)"><title>1936: 93 miles</title></rect>
+<rect x="618.7" y="267.3" width="4.3" height="2.7" fill="var(--s1)"><title>1937: 148 miles</title></rect>
+<rect x="624.0" y="269.3" width="4.3" height="0.7" fill="var(--s1)"><title>1938: 38 miles</title></rect>
+<rect x="629.3" y="268.9" width="4.3" height="1.1" fill="var(--s1)"><title>1939: 58 miles</title></rect>
+<rect x="634.7" y="269.5" width="4.3" height="0.5" fill="var(--s1)"><title>1940: 26 miles</title></rect>
+<rect x="640.0" y="269.0" width="4.3" height="1.0" fill="var(--s1)"><title>1941: 54 miles</title></rect>
+<rect x="645.3" y="268.7" width="4.3" height="1.3" fill="var(--s1)"><title>1942: 74 miles</title></rect>
+<rect x="650.7" y="269.0" width="4.3" height="1.0" fill="var(--s1)"><title>1943: 56 miles</title></rect>
+<rect x="656.0" y="267.8" width="4.3" height="2.2" fill="var(--s1)"><title>1944: 121 miles</title></rect>
+<rect x="661.3" y="268.8" width="4.3" height="1.2" fill="var(--s1)"><title>1945: 65 miles</title></rect>
+<rect x="666.7" y="268.8" width="4.3" height="1.2" fill="var(--s1)"><title>1946: 68 miles</title></rect>
+<rect x="672.0" y="267.2" width="4.3" height="2.8" fill="var(--s1)"><title>1947: 154 miles</title></rect>
+<rect x="677.3" y="268.3" width="4.3" height="1.7" fill="var(--s1)"><title>1948: 96 miles</title></rect>
+<rect x="682.7" y="268.6" width="4.3" height="1.4" fill="var(--s1)"><title>1949: 78 miles</title></rect>
+<rect x="688.0" y="268.0" width="4.3" height="2.0" fill="var(--s1)"><title>1950: 109 miles</title></rect>
+<rect x="693.3" y="267.7" width="4.3" height="2.3" fill="var(--s1)"><title>1951: 129 miles</title></rect>
+<rect x="698.7" y="267.9" width="4.3" height="2.1" fill="var(--s1)"><title>1952: 116 miles</title></rect>
+<line x1="48" y1="270.0" x2="704" y2="270.0" class="axis"/>
+<text x="268.0" y="139.0" class="lab" text-anchor="end">1872: 7,439</text>
+<text x="321.3" y="63.6" class="lab" text-anchor="end">1882: 11,599</text>
+<text x="360.0" y="36.7" class="lab" text-anchor="start">1887: 13,081</text>
+</svg>
+<figcaption>Source: FRED series A02F2AUSA374NNBR. Railroad share prices (M11005USM293NNBR) fell 40% in 1857, 48% from 1872 to 1877 and 35% from 1881 to 1885.</figcaption>
+</figure>
+<figure>
+<h4>Real freight rates fell by more than half before 1886 and kept falling for another thirty years</h4>
+<p class="sub">Freight revenue per ton-mile divided by the general price level, 1886 = 100 (the year of Hadley's essay).</p>
+<svg viewBox="0 0 720 320" role="img" aria-label="Inflation-adjusted rail freight revenue per ton-mile, 1865 to 1955, indexed to 1886" class="chart"><line x1="40" y1="290.0" x2="650" y2="290.0" class="grid"/><text x="34" y="294.0" class="tick" text-anchor="end">0</text>
+<line x1="40" y1="244.3" x2="650" y2="244.3" class="grid"/><text x="34" y="248.3" class="tick" text-anchor="end">40</text>
+<line x1="40" y1="198.7" x2="650" y2="198.7" class="grid"/><text x="34" y="202.7" class="tick" text-anchor="end">80</text>
+<line x1="40" y1="153.0" x2="650" y2="153.0" class="grid"/><text x="34" y="157.0" class="tick" text-anchor="end">120</text>
+<line x1="40" y1="107.3" x2="650" y2="107.3" class="grid"/><text x="34" y="111.3" class="tick" text-anchor="end">160</text>
+<line x1="40" y1="61.7" x2="650" y2="61.7" class="grid"/><text x="34" y="65.7" class="tick" text-anchor="end">200</text>
+<line x1="40" y1="16.0" x2="650" y2="16.0" class="grid"/><text x="34" y="20.0" class="tick" text-anchor="end">240</text>
+<text x="73.9" y="308" class="tick" text-anchor="middle">1870</text>
+<text x="141.7" y="308" class="tick" text-anchor="middle">1880</text>
+<text x="209.4" y="308" class="tick" text-anchor="middle">1890</text>
+<text x="277.2" y="308" class="tick" text-anchor="middle">1900</text>
+<text x="345.0" y="308" class="tick" text-anchor="middle">1910</text>
+<text x="412.8" y="308" class="tick" text-anchor="middle">1920</text>
+<text x="480.6" y="308" class="tick" text-anchor="middle">1930</text>
+<text x="548.3" y="308" class="tick" text-anchor="middle">1940</text>
+<text x="616.1" y="308" class="tick" text-anchor="middle">1950</text>
+<line x1="40" y1="290" x2="650" y2="290" class="axis"/>
+<line x1="189.1" y1="16.0" x2="189.1" y2="290.0" class="ann"/><text x="195.1" y="26.0" class="tick">Interstate Commerce Act, 1887</text><line x1="317.9" y1="16.0" x2="317.9" y2="290.0" class="ann"/><text x="323.9" y="42.0" class="tick">Hepburn Act, 1906</text><circle cx="40.0" cy="40.0" r="4" fill="var(--s1)" class="dot"/><text x="48.0" y="44.0" class="lab" text-anchor="start">1865: 219</text><circle cx="182.3" cy="175.8" r="4" fill="var(--s1)" class="dot"/><text x="176.3" y="191.8" class="lab" text-anchor="end">1886: 100</text><circle cx="385.7" cy="235.8" r="4" fill="var(--s1)" class="dot"/><text x="385.7" y="253.8" class="lab" text-anchor="middle">1916: 47</text>
+<polyline points="40.0,40.0 46.8,60.3 53.6,67.4 60.3,72.8 67.1,89.0 73.9,107.6 80.7,113.0 87.4,120.1 94.2,120.8 101.0,125.1 107.8,138.3 114.6,149.5 121.3,149.2 128.1,150.2 134.9,169.0 141.7,163.8 148.4,175.9 155.2,172.7 162.0,168.7 168.8,172.5 175.6,175.6 182.3,175.8 189.1,178.2 195.9,183.1 202.7,190.5 209.4,189.0 216.2,193.0 223.0,191.4 229.8,192.9 236.6,189.4 243.3,193.4 250.1,195.8 256.9,197.5 263.7,204.7 270.4,211.9 277.2,213.8 284.0,213.1 290.8,215.0 297.6,215.7 304.3,214.5 311.1,217.7 317.9,221.4 324.7,221.9 331.4,221.0 338.2,223.0 345.0,225.4 351.8,224.5 358.6,227.9 365.3,229.5 372.1,229.6 378.9,230.4 385.7,235.8 392.4,243.4 399.2,243.0 406.0,243.3 412.8,247.0 419.6,232.0 426.3,232.1 433.1,236.3 439.9,236.5 446.7,238.7 453.4,239.9 460.2,238.9 467.0,238.3 473.8,238.5 480.6,237.8 487.3,233.2 494.1,227.0 500.9,226.7 507.7,230.0 514.4,230.8 521.2,232.3 528.0,236.6 534.8,232.7 541.6,232.4 548.3,234.6 555.1,237.7 561.9,243.2 568.7,245.7 575.4,245.7 582.2,246.3 589.0,248.8 595.8,250.5 602.6,247.3 609.3,243.8 616.1,244.6 622.9,247.8 629.7,245.7 636.4,244.7 643.2,246.5 650.0,248.0" fill="none" stroke="var(--s1)" class="ln"/>
+<circle cx="40.0" cy="40.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1865: 219.0</title></circle>
+<circle cx="46.8" cy="60.3" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1866: 201.2</title></circle>
+<circle cx="53.6" cy="67.4" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1867: 195.0</title></circle>
+<circle cx="60.3" cy="72.8" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1868: 190.2</title></circle>
+<circle cx="67.1" cy="89.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1869: 176.1</title></circle>
+<circle cx="73.9" cy="107.6" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1870: 159.8</title></circle>
+<circle cx="80.7" cy="113.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1871: 155.0</title></circle>
+<circle cx="87.4" cy="120.1" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1872: 148.8</title></circle>
+<circle cx="94.2" cy="120.8" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1873: 148.2</title></circle>
+<circle cx="101.0" cy="125.1" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1874: 144.4</title></circle>
+<circle cx="107.8" cy="138.3" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1875: 132.9</title></circle>
+<circle cx="114.6" cy="149.5" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1876: 123.0</title></circle>
+<circle cx="121.3" cy="149.2" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1877: 123.3</title></circle>
+<circle cx="128.1" cy="150.2" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1878: 122.4</title></circle>
+<circle cx="134.9" cy="169.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1879: 106.0</title></circle>
+<circle cx="141.7" cy="163.8" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1880: 110.5</title></circle>
+<circle cx="148.4" cy="175.9" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1881: 100.0</title></circle>
+<circle cx="155.2" cy="172.7" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1882: 102.7</title></circle>
+<circle cx="162.0" cy="168.7" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1883: 106.3</title></circle>
+<circle cx="168.8" cy="172.5" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1884: 102.9</title></circle>
+<circle cx="175.6" cy="175.6" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1885: 100.2</title></circle>
+<circle cx="182.3" cy="175.8" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1886: 100.0</title></circle>
+<circle cx="189.1" cy="178.2" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1887: 97.9</title></circle>
+<circle cx="195.9" cy="183.1" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1888: 93.6</title></circle>
+<circle cx="202.7" cy="190.5" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1889: 87.1</title></circle>
+<circle cx="209.4" cy="189.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1890: 88.5</title></circle>
+<circle cx="216.2" cy="193.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1891: 85.0</title></circle>
+<circle cx="223.0" cy="191.4" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1892: 86.4</title></circle>
+<circle cx="229.8" cy="192.9" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1893: 85.0</title></circle>
+<circle cx="236.6" cy="189.4" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1894: 88.1</title></circle>
+<circle cx="243.3" cy="193.4" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1895: 84.6</title></circle>
+<circle cx="250.1" cy="195.8" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1896: 82.5</title></circle>
+<circle cx="256.9" cy="197.5" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1897: 81.0</title></circle>
+<circle cx="263.7" cy="204.7" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1898: 74.7</title></circle>
+<circle cx="270.4" cy="211.9" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1899: 68.4</title></circle>
+<circle cx="277.2" cy="213.8" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1900: 66.7</title></circle>
+<circle cx="284.0" cy="213.1" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1901: 67.4</title></circle>
+<circle cx="290.8" cy="215.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1902: 65.7</title></circle>
+<circle cx="297.6" cy="215.7" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1903: 65.1</title></circle>
+<circle cx="304.3" cy="214.5" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1904: 66.1</title></circle>
+<circle cx="311.1" cy="217.7" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1905: 63.3</title></circle>
+<circle cx="317.9" cy="221.4" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1906: 60.1</title></circle>
+<circle cx="324.7" cy="221.9" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1907: 59.6</title></circle>
+<circle cx="331.4" cy="221.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1908: 60.4</title></circle>
+<circle cx="338.2" cy="223.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1909: 58.7</title></circle>
+<circle cx="345.0" cy="225.4" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1910: 56.6</title></circle>
+<circle cx="351.8" cy="224.5" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1911: 57.4</title></circle>
+<circle cx="358.6" cy="227.9" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1912: 54.4</title></circle>
+<circle cx="365.3" cy="229.5" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1913: 53.0</title></circle>
+<circle cx="372.1" cy="229.6" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1914: 52.9</title></circle>
+<circle cx="378.9" cy="230.4" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1915: 52.2</title></circle>
+<circle cx="385.7" cy="235.8" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1916: 47.5</title></circle>
+<circle cx="392.4" cy="243.4" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1917: 40.8</title></circle>
+<circle cx="399.2" cy="243.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1918: 41.2</title></circle>
+<circle cx="406.0" cy="243.3" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1919: 40.9</title></circle>
+<circle cx="412.8" cy="247.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1920: 37.6</title></circle>
+<circle cx="419.6" cy="232.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1921: 50.8</title></circle>
+<circle cx="426.3" cy="232.1" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1922: 50.7</title></circle>
+<circle cx="433.1" cy="236.3" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1923: 47.0</title></circle>
+<circle cx="439.9" cy="236.5" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1924: 46.8</title></circle>
+<circle cx="446.7" cy="238.7" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1925: 44.9</title></circle>
+<circle cx="453.4" cy="239.9" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1926: 43.9</title></circle>
+<circle cx="460.2" cy="238.9" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1927: 44.7</title></circle>
+<circle cx="467.0" cy="238.3" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1928: 45.3</title></circle>
+<circle cx="473.8" cy="238.5" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1929: 45.1</title></circle>
+<circle cx="480.6" cy="237.8" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1930: 45.7</title></circle>
+<circle cx="487.3" cy="233.2" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1931: 49.7</title></circle>
+<circle cx="494.1" cy="227.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1932: 55.2</title></circle>
+<circle cx="500.9" cy="226.7" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1933: 55.4</title></circle>
+<circle cx="507.7" cy="230.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1934: 52.6</title></circle>
+<circle cx="514.4" cy="230.8" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1935: 51.9</title></circle>
+<circle cx="521.2" cy="232.3" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1936: 50.6</title></circle>
+<circle cx="528.0" cy="236.6" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1937: 46.7</title></circle>
+<circle cx="534.8" cy="232.7" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1938: 50.2</title></circle>
+<circle cx="541.6" cy="232.4" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1939: 50.5</title></circle>
+<circle cx="548.3" cy="234.6" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1940: 48.5</title></circle>
+<circle cx="555.1" cy="237.7" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1941: 45.8</title></circle>
+<circle cx="561.9" cy="243.2" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1942: 41.0</title></circle>
+<circle cx="568.7" cy="245.7" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1943: 38.8</title></circle>
+<circle cx="575.4" cy="245.7" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1944: 38.8</title></circle>
+<circle cx="582.2" cy="246.3" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1945: 38.2</title></circle>
+<circle cx="589.0" cy="248.8" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1946: 36.1</title></circle>
+<circle cx="595.8" cy="250.5" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1947: 34.6</title></circle>
+<circle cx="602.6" cy="247.3" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1948: 37.4</title></circle>
+<circle cx="609.3" cy="243.8" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1949: 40.5</title></circle>
+<circle cx="616.1" cy="244.6" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1950: 39.8</title></circle>
+<circle cx="622.9" cy="247.8" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1951: 37.0</title></circle>
+<circle cx="629.7" cy="245.7" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1952: 38.8</title></circle>
+<circle cx="636.4" cy="244.7" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1953: 39.7</title></circle>
+<circle cx="643.2" cy="246.5" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1954: 38.1</title></circle>
+<circle cx="650.0" cy="248.0" r="7" fill="transparent" stroke="none"><title>Real freight rate, 1955: 36.8</title></circle>
+<circle cx="650.0" cy="248.0" r="4" fill="var(--s1)" class="dot"/>
+<text x="659.0" y="252.0" class="lab">1955: 37</text></svg>
+<figcaption>Source: FRED series A0303FUSA259NNBR (thirteen railroads, to 1881), A0303DUSA259NNBR and A0303BUSA259NNBR (all railroads, 1882 to 1919), M033ACUSM270NNBR (Class I, 1920 to 1955), spliced at their overlaps. Deflated by M04051USM324NNBR to 1912 and CPIAUCNS after.</figcaption>
+</figure>
+<figure>
+<h4>Railroad margins dropped under rate regulation and are now back above their pre-1917 level</h4>
+<p class="sub">Operating margin in percent. Left: all Class I railroads, 1908 to 1961. Right: average of the five large railroads in the SEC sample, 2007 to 2025.</p>
+<svg viewBox="0 0 720 320" role="img" aria-label="Railroad operating margin, 1908 to 1961 and 2007 to 2025" class="chart"><line x1="40" y1="290.0" x2="696" y2="290.0" class="grid"/><text x="34" y="294.0" class="tick" text-anchor="end">0</text>
+<line x1="40" y1="229.1" x2="696" y2="229.1" class="grid"/><text x="34" y="233.1" class="tick" text-anchor="end">10</text>
+<line x1="40" y1="168.2" x2="696" y2="168.2" class="grid"/><text x="34" y="172.2" class="tick" text-anchor="end">20</text>
+<line x1="40" y1="107.3" x2="696" y2="107.3" class="grid"/><text x="34" y="111.3" class="tick" text-anchor="end">30</text>
+<line x1="40" y1="46.4" x2="696" y2="46.4" class="grid"/><text x="34" y="50.4" class="tick" text-anchor="end">40</text>
+<text x="67.1" y="308" class="tick" text-anchor="middle">1910</text>
+<text x="175.5" y="308" class="tick" text-anchor="middle">1930</text>
+<text x="284.0" y="308" class="tick" text-anchor="middle">1950</text>
+<text x="392.4" y="308" class="tick" text-anchor="middle">1970</text>
+<text x="500.8" y="308" class="tick" text-anchor="middle">1990</text>
+<text x="609.3" y="308" class="tick" text-anchor="middle">2010</text>
+<line x1="40" y1="290" x2="696" y2="290" class="axis"/>
+<rect x="110.5" y="16.0" width="10.8" height="274.0" class="band"/><text x="115.9" y="28.0" class="tick" text-anchor="middle">Federal control</text><rect x="235.2" y="16.0" width="21.7" height="274.0" class="band"/><text x="246.0" y="28.0" class="tick" text-anchor="middle">WWII</text><text x="473.7" y="143.9" class="tick" text-anchor="middle">no comparable series</text><text x="473.7" y="157.9" class="tick" text-anchor="middle">on FRED, 1962–2006</text><text x="48.1" y="55.6" class="lab">1908–16: 31.5%</text><text x="300.2" y="204.8" class="lab" text-anchor="middle">1946–61: 21.9%</text><text x="630.9" y="34.3" class="lab" text-anchor="middle">2009–25: 33%</text>
+<polyline points="56.3,92.1 61.7,78.6 67.1,98.6 72.5,101.7 78.0,103.6 83.4,118.6 88.8,121.4 94.2,89.0 99.6,80.2 105.1,110.7 110.5,177.7 115.9,200.2 121.3,251.0 126.7,184.3 132.2,164.0 137.6,154.6 143.0,144.8 148.4,132.2 153.9,126.4 159.3,135.0 164.7,122.0 170.1,117.7 175.5,134.2 181.0,149.6 186.4,149.2 191.8,123.5 197.2,135.0 202.6,139.0 208.1,121.5 213.5,137.0 218.9,146.0 224.3,125.9 229.8,118.9 235.2,98.4 240.6,56.4 246.0,61.5 251.4,86.5 256.9,163.7 262.3,188.5 267.7,157.6 273.1,151.5 278.5,169.9 284.0,134.9 289.4,152.4 294.8,144.5 300.2,145.6 305.7,161.0 311.1,141.5 316.5,148.9 321.9,158.5 327.3,162.4 332.8,158.7 338.2,165.2 343.6,163.2" fill="none" stroke="var(--s1)" class="ln"/>
+<circle cx="56.3" cy="92.1" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1908: 32.5</title></circle>
+<circle cx="61.7" cy="78.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1909: 34.7</title></circle>
+<circle cx="67.1" cy="98.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1910: 31.4</title></circle>
+<circle cx="72.5" cy="101.7" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1911: 30.9</title></circle>
+<circle cx="78.0" cy="103.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1912: 30.6</title></circle>
+<circle cx="83.4" cy="118.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1913: 28.2</title></circle>
+<circle cx="88.8" cy="121.4" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1914: 27.7</title></circle>
+<circle cx="94.2" cy="89.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1915: 33.0</title></circle>
+<circle cx="99.6" cy="80.2" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1916: 34.4</title></circle>
+<circle cx="105.1" cy="110.7" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1917: 29.4</title></circle>
+<circle cx="110.5" cy="177.7" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1918: 18.5</title></circle>
+<circle cx="115.9" cy="200.2" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1919: 14.7</title></circle>
+<circle cx="121.3" cy="251.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1920: 6.4</title></circle>
+<circle cx="126.7" cy="184.3" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1921: 17.4</title></circle>
+<circle cx="132.2" cy="164.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1922: 20.7</title></circle>
+<circle cx="137.6" cy="154.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1923: 22.2</title></circle>
+<circle cx="143.0" cy="144.8" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1924: 23.8</title></circle>
+<circle cx="148.4" cy="132.2" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1925: 25.9</title></circle>
+<circle cx="153.9" cy="126.4" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1926: 26.9</title></circle>
+<circle cx="159.3" cy="135.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1927: 25.5</title></circle>
+<circle cx="164.7" cy="122.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1928: 27.6</title></circle>
+<circle cx="170.1" cy="117.7" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1929: 28.3</title></circle>
+<circle cx="175.5" cy="134.2" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1930: 25.6</title></circle>
+<circle cx="181.0" cy="149.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1931: 23.1</title></circle>
+<circle cx="186.4" cy="149.2" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1932: 23.1</title></circle>
+<circle cx="191.8" cy="123.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1933: 27.3</title></circle>
+<circle cx="197.2" cy="135.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1934: 25.5</title></circle>
+<circle cx="202.6" cy="139.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1935: 24.8</title></circle>
+<circle cx="208.1" cy="121.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1936: 27.7</title></circle>
+<circle cx="213.5" cy="137.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1937: 25.1</title></circle>
+<circle cx="218.9" cy="146.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1938: 23.6</title></circle>
+<circle cx="224.3" cy="125.9" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1939: 27.0</title></circle>
+<circle cx="229.8" cy="118.9" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1940: 28.1</title></circle>
+<circle cx="235.2" cy="98.4" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1941: 31.5</title></circle>
+<circle cx="240.6" cy="56.4" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1942: 38.4</title></circle>
+<circle cx="246.0" cy="61.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1943: 37.5</title></circle>
+<circle cx="251.4" cy="86.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1944: 33.4</title></circle>
+<circle cx="256.9" cy="163.7" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1945: 20.7</title></circle>
+<circle cx="262.3" cy="188.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1946: 16.7</title></circle>
+<circle cx="267.7" cy="157.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1947: 21.7</title></circle>
+<circle cx="273.1" cy="151.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1948: 22.7</title></circle>
+<circle cx="278.5" cy="169.9" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1949: 19.7</title></circle>
+<circle cx="284.0" cy="134.9" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1950: 25.5</title></circle>
+<circle cx="289.4" cy="152.4" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1951: 22.6</title></circle>
+<circle cx="294.8" cy="144.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1952: 23.9</title></circle>
+<circle cx="300.2" cy="145.6" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1953: 23.7</title></circle>
+<circle cx="305.7" cy="161.0" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1954: 21.2</title></circle>
+<circle cx="311.1" cy="141.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1955: 24.4</title></circle>
+<circle cx="316.5" cy="148.9" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1956: 23.2</title></circle>
+<circle cx="321.9" cy="158.5" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1957: 21.6</title></circle>
+<circle cx="327.3" cy="162.4" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1958: 21.0</title></circle>
+<circle cx="332.8" cy="158.7" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1959: 21.6</title></circle>
+<circle cx="338.2" cy="165.2" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1960: 20.5</title></circle>
+<circle cx="343.6" cy="163.2" r="7" fill="transparent" stroke="none"><title>All Class I railroads, 1961: 20.8</title></circle>
+<circle cx="343.6" cy="163.2" r="4" fill="var(--s1)" class="dot"/>
+<polyline points="593.0,151.8 598.4,145.5 603.8,150.1 609.3,117.7 614.7,114.9 620.1,106.3 625.5,103.4 630.9,98.4 636.4,91.4 641.8,87.6 647.2,78.2 652.6,70.0 658.0,68.9 663.5,62.1 668.9,52.3 674.3,61.9 679.7,92.7 685.2,74.5 690.6,73.2" fill="none" stroke="var(--s1)" class="ln"/>
+<circle cx="593.0" cy="151.8" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2007: 22.7</title></circle>
+<circle cx="598.4" cy="145.5" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2008: 23.7</title></circle>
+<circle cx="603.8" cy="150.1" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2009: 23.0</title></circle>
+<circle cx="609.3" cy="117.7" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2010: 28.3</title></circle>
+<circle cx="614.7" cy="114.9" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2011: 28.8</title></circle>
+<circle cx="620.1" cy="106.3" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2012: 30.2</title></circle>
+<circle cx="625.5" cy="103.4" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2013: 30.6</title></circle>
+<circle cx="630.9" cy="98.4" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2014: 31.5</title></circle>
+<circle cx="636.4" cy="91.4" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2015: 32.6</title></circle>
+<circle cx="641.8" cy="87.6" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2016: 33.2</title></circle>
+<circle cx="647.2" cy="78.2" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2017: 34.8</title></circle>
+<circle cx="652.6" cy="70.0" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2018: 36.1</title></circle>
+<circle cx="658.0" cy="68.9" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2019: 36.3</title></circle>
+<circle cx="663.5" cy="62.1" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2020: 37.4</title></circle>
+<circle cx="668.9" cy="52.3" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2021: 39.0</title></circle>
+<circle cx="674.3" cy="61.9" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2022: 37.5</title></circle>
+<circle cx="679.7" cy="92.7" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2023: 32.4</title></circle>
+<circle cx="685.2" cy="74.5" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2024: 35.4</title></circle>
+<circle cx="690.6" cy="73.2" r="7" fill="transparent" stroke="none"><title>Five large railroads, 2025: 35.6</title></circle>
+<circle cx="690.6" cy="73.2" r="4" fill="var(--s1)" class="dot"/></svg>
+<figcaption>Source: FRED series M03016USM144NNBR and M03040USM144NNBR (revenue and operating expenses, monthly, summed by year); SEC EDGAR for 2007 onward. The two segments use different samples and accounting rules, so compare levels loosely.</figcaption>
+</figure>
+<div class="tw col"><table><thead><tr><th>Historical test</th><th>Result</th><th>Reading</th></tr></thead><tbody>
+<tr><td>Margin, 1908&ndash;16 vs 1921&ndash;61 (war years excluded)</td><td>31.5% vs 23.6%; Welch t(14) = 8.3, p &lt; .001</td><td>Margins were lower once the ICC set rates</td></tr>
+<tr><td>Track mileage</td><td>200,000 miles in 1890, 395,000 in 1916, 400,000 in 1942</td><td>Growth stopped after 1916</td></tr>
+<tr><td>Construction in year t&minus;1 and change in real rate in year t, 1867&ndash;1913</td><td>r = +0.29, n = 47, p = .051</td><td>No sign that building booms were followed by steeper rate cuts. Hadley's cycle is not visible in annual average rates</td></tr>
+<tr><td>Years with a lower nominal rate than the year before, 1866&ndash;1900</td><td>30 of 35</td><td>Rates fell almost continuously</td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<h2>The essay</h2>
+<p class="byline">About 1,350 words.</p>
+<div class="essay"><p>Arthur Hadley published this essay in October 1886, in the very first issue of the <cite>Quarterly Journal of Economics</cite>. Congress passed the Interstate Commerce Act four months later. He was writing about railroads, but his real subject was any business where most of the cost is sunk before the first customer shows up. I wanted to know whether his argument still holds when you check it against numbers he never had, so I pulled railroad statistics that reach back to 1830, federal price indexes from 1969 onward, and seventeen years of audited filings for twenty American transport companies.</p>
+<p>His argument runs like this. A railroad's costs are mostly fixed: track, bridges, interest on the debt. Hauling one more carload costs almost nothing. So when two railroads fight over the same traffic, each will keep cutting its rate as long as the rate covers the fuel and the crew, even if nothing is left over for the track. Hadley compares this to a farmer who sells wheat below the cost of his rent because the rent is owed either way. Nobody can stop first, because whoever stops still owes the fixed charges while the rival takes the traffic. The fight ends in bankruptcy or merger, and after the merger prices return to "a non-competitive figure." His conclusion was unpopular then and is still uncomfortable. Forcing competition on such an industry does not protect customers. He thought it better to admit the monopoly and regulate it through published accounts and equal treatment of shippers.</p>
+<p>I started with his own century. The National Bureau of Economic Research compiled railroad records long ago, and they are kind to him. Track building peaked in 1872, 1882 and 1887. Railroad share prices fell 48 percent between 1872 and 1877 and 35 percent between 1881 and 1885, and the panic of 1857 took 40 percent. Those are the three crises he lists. Meanwhile the charge for moving a ton of freight one mile on thirteen large roads dropped from 3.1 cents in 1865 to 0.8 cents in 1890. Adjusted for the general price level, shippers in 1886 paid less than half of what they had paid at the end of the Civil War. Hadley wrote that competition "had produced rapid development and low average charges" while ruining investors, and both halves of that sentence check out.</p>
+<p>One thing did not check out. I tried to catch his cycle in the yearly numbers by asking whether a heavy year of construction was followed by a sharper fall in rates. It was not. Rates fell in 30 of the 35 years after 1865 whether or not anyone was building, so the crises show up in share prices and I could not find them in the average rate.</p>
+<p>What came next is the outcome Hadley feared. He warned that rates fixed too low by a public authority would "check railroad development." In 1906 the Hepburn Act gave the Interstate Commerce Commission power to set maximum rates. From 1908 to 1916 the large railroads kept 31.5 cents of each revenue dollar as operating profit. From 1921 to 1961, leaving out the Second World War, they kept 23.6 cents, and the drop is statistically significant. Track mileage doubled between 1890 and 1916 and was no higher in 1942 than in 1916. Trucks and cars arrived in those same decades, so I would not pin all of that on the regulators. Still, it is the pattern he predicted.</p>
+<p>Hadley also gave me a ready-made experiment for the present day, though he did not call it one. He points out that the old law kept the highway public and let private carriers compete on it, and that this worked well as long as anyone could put a wagon on the road. The railroad broke the arrangement because it was highway and carrier at once. Today we have all three cases side by side. Truckers run on public interstates. Airlines fly through public airspace and land at public airports. Freight railroads still own every mile of their own track.</p>
+<p>The filings sort themselves into those groups almost too neatly. From 2009 to 2025 the five big railroads in my sample kept about 33 cents of every revenue dollar as operating profit, which is back where the industry stood before 1917. The nine trucking companies kept 9 cents and the six airlines kept 4. The least profitable railroad in the group averaged 31 percent. The most profitable trucker, Old Dominion, averaged 19. The gap between rail and trucking is 24 points after adjusting for the year, and the confidence interval runs from 20 to 28. Results this clean are rare in company data.</p>
+<p>It would be easy to stop there and declare the railroads guilty. I think that would misread both Hadley and the data. A railroad needs about $2.57 of plant and equipment to produce a dollar of revenue. A trucker needs 54 cents. A big margin on a huge asset base can still be an ordinary return, so I divided operating profit by total assets instead of by revenue. The rail advantage disappears. Railroads and truckers each averaged between 10 and 11 percent on assets, and the difference is nowhere near statistical significance. The 33-cent margin is what it costs to keep paying for the track. Hadley's "fixed charges" are sitting right there in the income statement, getting covered.</p>
+<p>The airlines are the other half of his prediction, and the sadder half. They earned under 5 percent on assets, about half of what the others did, and the gap is significant. Fares fell in eleven of the last twenty-one years. Adjusted for inflation, a ticket in 2025 cost about a quarter less than in 1989. That is wonderful if you are a passenger. For the companies it meant a decade of bankruptcies (United, Delta, Northwest, American) followed by mergers that left four carriers with most of the domestic market. Hadley described that exact sequence 140 years ago, down to the order of events.</p>
+<p>The price history of the railroads fits him as well, with one twist. After the Staggers Act loosened rate regulation in 1980, inflation-adjusted rail rates fell by about 31 percent between 1981 and 2001. During those same years the industry went from more than thirty large railroads to seven. Then the direction reversed. Since 2001 real rail rates have climbed 27 percent, and since 2004 rail prices have doubled while trucking rates and consumer prices rose about 70 to 75 percent. The data shows both phases Hadley described, low rates while the fight lasted and restored prices after the mergers ended it.</p>
+<p>I should be straight about where the evidence is thin. Hadley claimed that competition makes prices and profits unstable, and at first the airlines seem to prove it, since their margins swing three times as widely as anyone else's. But almost all of that comes from 2020. Drop the pandemic year and the difference in volatility is no longer significant. Rail prices do look steadier than truck rates or airfares, but with twenty-one annual observations the test cannot confirm it. So I would call that part of his argument plausible and unproven. My sample is also twenty firms chosen because they file with the SEC, which means I can describe these companies well and should be careful about anything broader. And equal returns on assets do not prove that rail prices are fair, because book assets are an accounting number and the railroads' captive shippers would have plenty to say about their own rates.</p>
+<p>Still, I came away thinking Hadley got the hard part right. He understood that the question to ask of a high-fixed-cost industry is what kind of monopoly you will end up with and who gets to see its books. That question is live again. Union Pacific and Norfolk Southern have asked the Surface Transportation Board to approve an $85 billion merger that would create the first coast-to-coast railroad, and the Board has spent 2026 demanding more information about market shares before it rules. Hadley would have recognized every step of that proceeding. He would probably have told the Board what he told his readers in 1886, that a strong road is easier to hold responsible than a weak one, as long as it is made to show its accounts.</p></div>
+</section>
+
+<section class="meth col">
+<h2>Methodology breakdown</h2>
+<p class="note">Hadley's 1886 article is a historical and analytical argument. It has no sample, no variables and no statistical test. The breakdown below therefore describes the empirical study on this page, which was built to test his central claim. Anything Hadley's text does not supply, or that I chose by convention, is tagged <span class="inf">Inferred/Recommended</span>.</p>
+
+<h3>Section 1: Study architecture and variable logic</h3>
+<p><strong>Research goal.</strong> To test whether firms that own their own infrastructure (Hadley's "highway and carrier under one head") earn higher and steadier profits than firms that compete on public infrastructure, and whether any difference survives once capital intensity is accounted for.</p>
+<p><strong>Target population.</strong> Large US freight and passenger carriers in rail, trucking and air transport. By extension, firms in high-fixed-cost network industries. <span class="inf">Inferred/Recommended</span></p>
+<p><strong>Sample and sampling framework.</strong> n = 322 firm-year observations from 20 firms, fiscal 2009 to 2025 (rail 5 firms, 81 obs; trucking 9 firms, 139 obs; air 6 firms, 102 obs). The panel is unbalanced. Sampling was purposive (non-probability): every US Class I railroad with its own SEC filings, the six largest US passenger airlines, and nine large publicly listed truckload and less-than-truckload carriers. Supplementary time-series samples from FRED: 57 annual price observations (1969 to 2025), 91 annual freight-rate observations (1865 to 1955), 54 annual industry margins (1908 to 1961) and 123 annual construction counts (1830 to 1952). These are complete national series, not samples drawn from a larger set.</p>
+<div class="tw"><table><thead><tr><th>Variable</th><th>Role</th><th>Scale</th><th>Definition</th></tr></thead><tbody>
+<tr><td>Operating margin</td><td>DV (primary)</td><td>Ratio</td><td>Operating income &divide; revenue, in percent</td></tr>
+<tr><td>Operating return on assets</td><td>DV (secondary)</td><td>Ratio</td><td>Operating income &divide; total assets, in percent</td></tr>
+<tr><td>Within-firm SD of margin</td><td>DV (stability test)</td><td>Ratio</td><td>Standard deviation of a firm's annual margins</td></tr>
+<tr><td>Transport mode</td><td>IV</td><td>Nominal (3 levels)</td><td>Rail, trucking, air. Rail = integrated infrastructure. Coded as two dummies, trucking as reference</td></tr>
+<tr><td>Capital intensity</td><td>Mediator / covariate</td><td>Ratio (log-transformed)</td><td>Net PP&amp;E &divide; revenue. Hadley's mechanism runs from mode through fixed cost to pricing</td></tr>
+<tr><td>Fiscal year</td><td>Control</td><td>Nominal (17 fixed effects)</td><td>Absorbs economy-wide shocks such as fuel prices and 2020</td></tr>
+<tr><td>Pandemic year (2020)</td><td>Moderator / sensitivity</td><td>Nominal (binary)</td><td>Models re-run with 2020 excluded</td></tr>
+<tr><td>Firm</td><td>Clustering unit</td><td>Nominal</td><td>SEC registrant (CIK)</td></tr>
+<tr><td>Price indexes</td><td>DV (descriptive)</td><td>Ratio (index)</td><td>PPI rail, PPI trucking, CPI airfares, CPI all items</td></tr>
+<tr><td>Real freight rate, 1865&ndash;1955</td><td>DV (historical)</td><td>Ratio</td><td>Revenue per ton-mile &divide; general price level</td></tr>
+<tr><td>Miles of railroad built</td><td>IV (historical cycle test)</td><td>Ratio (log-transformed, lagged one year)</td><td>New mileage per year</td></tr>
+<tr><td>Regulatory era</td><td>IV (historical margin test)</td><td>Nominal (binary)</td><td>Before 1917 vs 1921 to 1961</td></tr>
+</tbody></table></div>
+
+<h3>Section 2: Formal hypotheses and inference logic</h3>
+<p><strong>Statistical hypotheses.</strong> Let &beta;<sub>Rail</sub> be the population difference in mean operating margin between rail and trucking firms, holding year constant.</p>
+<ul><li>H<sub>0</sub>: &beta;<sub>Rail</sub> = 0. Equivalently, in the firm-level test, &mu;<sub>Rail</sub> = &mu;<sub>Truck</sub> = &mu;<sub>Air</sub>.</li>
+<li>H<sub>a</sub>: &beta;<sub>Rail</sub> &ne; 0. At least one mode mean differs.</li>
+<li>Secondary: the same pair of hypotheses with return on assets as the DV.</li></ul>
+<p><strong>Directionality.</strong> Two-tailed. Hadley's theory predicts a sign (rail higher), which would permit a one-tailed test, but the two-tailed test is the conservative convention and leaves room to detect an effect in the unexpected direction. <span class="inf">Inferred/Recommended</span></p>
+<p><strong>Type I error.</strong> &alpha; = 0.05 <span class="inf">Inferred/Recommended</span>. A Type I error here would mean concluding that owning the infrastructure raises margins when the gap in this sample arose by chance. In practice it would lend false support to the case for tighter rail rate regulation.</p>
+<p><strong>Type II error and power.</strong> A Type II error would mean missing a real profitability difference, for example concluding that railroads earn no excess return on assets when they do. With only 20 firms (5 rail against 15 others), a firm-level two-sample test reaches power of 0.80 only for very large effects, roughly Cohen's d &ge; 1.5. A conventional large effect (d = 0.8) would need about 26 firms per group. The margin effect observed (d &asymp; 6) is far above that threshold. The return-on-assets test is not: its minimum detectable difference at 80% power is about 7 percentage points, so the null result there rules out a large rail premium but cannot rule out a modest one.</p>
+
+<h3>Section 3: Estimation and mathematical modelling</h3>
+<p><strong>Primary test.</strong> Multiple linear regression (pooled OLS with year fixed effects and standard errors clustered by firm). The DV is ratio-scaled and continuous, the IV is nominal with three levels, and the same firms are observed repeatedly, so observations within a firm are not independent. Clustering handles that dependence. Because 20 clusters is few, the result is confirmed with a one-way ANOVA and a Kruskal-Wallis test on the 20 firm-level means, where independence holds by construction.</p>
+<div class="eq">Margin<sub>it</sub> = &beta;<sub>0</sub> + &beta;<sub>1</sub>&middot;Rail<sub>i</sub> + &beta;<sub>2</sub>&middot;Air<sub>i</sub> + &gamma;<sub>t</sub> + &epsilon;<sub>it</sub></div>
+<p class="note">i = firm, t = fiscal year, &gamma;<sub>t</sub> = year fixed effects, trucking is the reference category. The extended model adds &beta;<sub>3</sub>&middot;ln(PP&amp;E/Revenue)<sub>it</sub>.</p>
+<div class="tw"><table><thead><tr><th>Assumption</th><th>How to test it</th><th>Result here</th></tr></thead><tbody>
+<tr><td>Independence of observations</td><td>Study design; intraclass correlation</td><td>Violated within firms. Addressed by clustering and by the firm-means tests</td></tr>
+<tr><td>Normality of residuals</td><td>Shapiro-Wilk, Q-Q plot</td><td>Pooled residuals: W = 0.84, p &lt; .001 (2020 outliers). Firm means by group: p = .35, .32, .99, so normality holds at firm level</td></tr>
+<tr><td>Homoscedasticity</td><td>Breusch-Pagan, Levene</td><td>Breusch-Pagan p &lt; .001 on the panel, hence cluster-robust errors. Levene on firm means: p = .55</td></tr>
+<tr><td>Linearity</td><td>Residual-versus-fitted plot</td><td>Trivially met for dummy regressors. Capital intensity entered in logs</td></tr>
+<tr><td>No perfect multicollinearity</td><td>Variance inflation factors</td><td>Mode and capital intensity are highly collinear, so their separate effects cannot be pulled apart in this sample</td></tr>
+<tr><td>Random sampling</td><td>Study design</td><td>Not met. The sample is purposive, so p-values describe these firms more safely than the wider population</td></tr>
+</tbody></table></div>
+
+<h3>Section 4: Interpretation metrics and reporting standard</h3>
+<p><strong>Test statistic and degrees of freedom.</strong> For each coefficient, t = b &divide; SE(b), referred to a t distribution with G &minus; 1 = 19 degrees of freedom, where G is the number of firm clusters <span class="inf">Inferred/Recommended</span>. For the firm-level ANOVA, F with df<sub>between</sub> = k &minus; 1 = 2 and df<sub>within</sub> = N &minus; k = 17. For Kruskal-Wallis, H is compared with &chi;&sup2; on k &minus; 1 = 2 df.</p>
+<p><strong>Effect size.</strong> The unstandardized coefficient in percentage points is the most readable measure. Eta-squared (&eta;&sup2;) reports the share of between-firm variance explained by mode, and Cohen's d the standardized rail-versus-others gap.</p>
+<p><strong>Decision rules.</strong> Reject H<sub>0</sub> if p &lt; 0.05, or equivalently if the 95% confidence interval for &beta; excludes 0. Otherwise fail to reject.</p>
+<div class="tw"><table><thead><tr><th>Test</th><th class="n">Estimate</th><th>95% CI</th><th>Statistic</th><th>Decision</th></tr></thead><tbody>
+<tr><td>Margin, rail vs trucking (&beta;<sub>1</sub>)</td><td class="n">+23.9 pts</td><td>19.9 to 27.9</td><td>t(19) = 12.4, p &lt; .001</td><td>Reject H<sub>0</sub></td></tr>
+<tr><td>Margin, air vs trucking (&beta;<sub>2</sub>)</td><td class="n">&minus;5.2 pts</td><td>&minus;9.3 to &minus;1.1</td><td>t(19) = &minus;2.6, p = .016</td><td>Reject H<sub>0</sub>, but not without 2020 (&minus;1.3, p = .51)</td></tr>
+<tr><td>Margin, three modes (firm means)</td><td class="n">&eta;&sup2; = 0.92</td><td></td><td>F(2, 17) = 100.2, p &lt; .001; H = 13.9, p = .001</td><td>Reject H<sub>0</sub></td></tr>
+<tr><td>Return on assets, rail vs trucking</td><td class="n">&minus;0.4 pts</td><td>&minus;4.8 to 3.9</td><td>t(19) = &minus;0.2, p = .83</td><td>Fail to reject H<sub>0</sub></td></tr>
+<tr><td>Return on assets, air vs trucking</td><td class="n">&minus;6.2 pts</td><td>&minus;10.4 to &minus;2.1</td><td>t(19) = &minus;3.1, p = .005</td><td>Reject H<sub>0</sub></td></tr>
+<tr><td>Margin volatility across modes</td><td class="n"></td><td></td><td>H = 12.4, p = .002; without 2020, H = 3.9, p = .14</td><td>Depends entirely on 2020</td></tr>
+<tr><td>Capital intensity and margin (firm level)</td><td class="n">r = 0.83</td><td></td><td>n = 20, p &lt; .001; Spearman &rho; = 0.45, p = .049</td><td>Reject H<sub>0</sub></td></tr>
+</tbody></table></div>
+<p class="note">Model fit for the primary regression: R&sup2; = 0.65 (0.79 without 2020). When capital intensity is added, the rail coefficient stays at +25.9 points but its standard error quadruples, which is the collinearity noted above.</p>
+</section>
+
+<section class="col">
+<h2>Data and limits</h2>
+<p><strong>Company data.</strong> SEC EDGAR XBRL "company facts" for Union Pacific, CSX, Norfolk Southern, BNSF, Kansas City Southern; J.B. Hunt, Knight-Swift, Werner, Old Dominion, Schneider, Heartland Express, Saia, ArcBest, Marten; Delta, United, American, Southwest, Alaska Air, JetBlue. Values are as reported in annual 10-K filings.</p>
+<p><strong>Price data.</strong> Federal Reserve Economic Data (FRED), originally from the Bureau of Labor Statistics.</p>
+<p><strong>Historical data.</strong> NBER Macrohistory Database series on FRED. The freight-rate line joins four series with different coverage, scaled at their overlaps, so small year-to-year moves near the joins (1882, 1888, 1920) should not be over-read. There is no public rate series on FRED between 1956 and 1968, so the historical and modern price charts are kept separate.</p>
+<p><strong>How far back each source goes.</strong> Railroad construction 1830, share prices 1855, freight rates 1865, industry revenue and expenses 1907, rail price index 1969, company filings 2007. The SEC's structured data starts in 2009 with two years of comparatives. Adding 2007 and 2008 leaves the rail-versus-trucking margin gap at 23.5 points. Company-level figures before that exist in CRSP and Compustat (from 1926 and 1950), which need WRDS access.</p>
+<p><strong>Not used.</strong> Wharton's WRDS (Compustat, CRSP) requires an institutional subscription and was not used, so every input here is freely downloadable. The SEC filings are the same underlying source Compustat draws on, so the figures should match closely if you re-run this in WRDS.</p>
+<p><strong>Limits.</strong> Twenty firms is a small sample and was not drawn at random. Operating margin and book return on assets are accounting measures, not economic profit. Canadian National and CPKC are excluded because they report under different filings. Airline assets exclude some leased aircraft. Background facts on the Staggers Act, the count of large railroads and the pending Union Pacific and Norfolk Southern merger come from <a href="https://www.railwayage.com/regulatory/the-railroad-staggers-built/">Railway Age</a>, <a href="https://www.logisticsmgmt.com/article/stb_decision_labels_union_pacific_norfolk_southern_merger_application_as_incomplete/STB">Logistics Management</a> and <a href="https://www.supplychain247.com/article/union-pacific-norfolk-southern-merger-review-paused/Rail">Supply Chain 24/7</a>.</p>
+</section>
+<footer class="col note">Code, data and replication instructions: <a href="https://github.com/brendynbeasley/hadley-1886-private-monopolies">github.com/brendynbeasley/hadley-1886-private-monopolies</a></footer>
+</div>
+</body>
+</html>

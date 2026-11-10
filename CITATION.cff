@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite it as below."
+title: "Hadley Tested: Private Monopolies and Public Rights, 1830-2025"
+authors:
+  - family-names: Beasley
+    given-names: Brendyn
+date-released: 2026-11-10
+version: 1.0.0
+license: MIT
+repository-code: "https://github.com/brendynbeasley/hadley-1886-private-monopolies"
+url: "https://brendynbeasley.github.io/hadley-1886-private-monopolies/"
+references:
+  - type: article
+    authors:
+      - family-names: Hadley
+        given-names: Arthur T.
+    title: "Private Monopolies and Public Rights"
+    journal: "The Quarterly Journal of Economics"
+    volume: 1
+    issue: 1
+    start: 28
+    end: 44
+    year: 1886
+    url: "https://www.jstor.org/stable/1883107"
